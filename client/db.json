@@ -1,3 +1,271 @@
 {
-
+  "stories": [
+    {
+      "user_id": "user_1",
+      "username": "john_doe",
+      "profile_picture": "https://example.com/profiles/john_doe.jpg",
+      "story_content": [
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_1",
+          "duration": 5,
+          "timestamp": "2023-10-01T12:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_2",
+          "duration": 7,
+          "timestamp": "2023-10-01T14:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_3",
+          "duration": 10,
+          "timestamp": "2023-10-01T12:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_4",
+          "duration": 15,
+          "timestamp": "2023-10-01T14:00:00Z"
+        }
+      ]
+    },
+    {
+      "user_id": "user_2",
+      "username": "jane_smith",
+      "profile_picture": "https://example.com/profiles/jane_smith.jpg",
+      "duration": 10,
+      "story_content": [
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_5",
+          "duration": 20,
+          "timestamp": "2023-10-01T12:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_6",
+          "duration": 10,
+          "timestamp": "2023-10-01T14:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_7",
+          "duration": 10,
+          "timestamp": "2023-10-01T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "user_id": "user_3",
+      "username": "jane_smith",
+      "profile_picture": "https://example.com/profiles/jane_smith.jpg",
+      "story_content": [
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_8",
+          "duration": 10,
+          "timestamp": "2023-10-01T12:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_9",
+          "duration": 10,
+          "timestamp": "2023-10-01T14:00:00Z"
+        },
+        {
+          "type": "image",
+          "url": "https://robohash.org/story_10",
+          "duration": 10,
+          "timestamp": "2023-10-01T12:00:00Z"
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "post_id": "post_1",
+      "user_id": "user_1",
+      "username": "john_doe",
+      "profile_picture": "https://example.com/profiles/john_doe.jpg",
+      "content": "https://example.com/posts/john_doe/post1.jpg",
+      "caption": "Beautiful sunset!",
+      "likes": 120,
+      "comments": [
+        {
+          "user_id": "user_2",
+          "username": "jane_smith",
+          "comment": "Amazing view!",
+          "timestamp": "2023-10-01T16:00:00Z"
+        }
+      ],
+      "shares": 10,
+      "timestamp": "2023-10-01T12:00:00Z"
+    },
+    {
+      "post_id": "post_2",
+      "user_id": "user_2",
+      "username": "jane_smith",
+      "profile_picture": "https://example.com/profiles/jane_smith.jpg",
+      "content": "https://example.com/posts/jane_smith/post1.jpg",
+      "caption": "Loving this place!",
+      "likes": 200,
+      "comments": [
+        {
+          "user_id": "user_1",
+          "username": "john_doe",
+          "comment": "Looks great!",
+          "timestamp": "2023-10-01T17:00:00Z"
+        }
+      ],
+      "shares": 15,
+      "timestamp": "2023-10-01T13:00:00Z"
+    },
+    {
+      "post_id": "post_3",
+      "user_id": "user_3",
+      "username": "arthur_01",
+      "profile_picture": "https://example.com/profiles/jane_smith.jpg",
+      "content": "https://example.com/posts/jane_smith/post1.jpg",
+      "caption": "Loving this place!",
+      "likes": 200,
+      "comments": [
+        {
+          "user_id": "user_1",
+          "username": "john_doe",
+          "comment": "Looks great!",
+          "timestamp": "2023-10-01T17:00:00Z"
+        }
+      ],
+      "shares": 15,
+      "timestamp": "2023-10-01T13:00:00Z"
+    }
+  ],
+  "messages": [
+    {
+      "conversation_id": "conv_1",
+      "participants": [
+        "user_1",
+        "user_2"
+      ],
+      "messages": [
+        {
+          "sender_id": "user_1",
+          "message": "Hey, how are you?",
+          "timestamp": "2023-10-01T18:00:00Z"
+        },
+        {
+          "sender_id": "user_2",
+          "message": "I'm good, thanks! How about you?",
+          "timestamp": "2023-10-01T18:05:00Z"
+        },
+        {
+          "sender_id": "user_1",
+          "message": "I'm doing well, just busy with work.",
+          "timestamp": "2023-10-01T18:10:00Z"
+        },
+        {
+          "sender_id": "user_2",
+          "message": "I understand. Any plans for the weekend?",
+          "timestamp": "2023-10-01T18:15:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "conv_2",
+      "participants": [
+        "user_3",
+        "user_4"
+      ],
+      "messages": [
+        {
+          "sender_id": "user_3",
+          "message": "Hi, are you coming to the party?",
+          "timestamp": "2023-10-02T10:00:00Z"
+        },
+        {
+          "sender_id": "user_4",
+          "message": "Yes, I'll be there!",
+          "timestamp": "2023-10-02T10:05:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "conv_3",
+      "participants": [
+        "user_5",
+        "user_6"
+      ],
+      "messages": [
+        {
+          "sender_id": "user_5",
+          "message": "Can you send me the report?",
+          "timestamp": "2023-10-03T09:00:00Z"
+        },
+        {
+          "sender_id": "user_6",
+          "message": "Sure, I'll send it by EOD.",
+          "timestamp": "2023-10-03T09:10:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "conv_4",
+      "participants": [
+        "user_7",
+        "user_8"
+      ],
+      "messages": [
+        {
+          "sender_id": "user_7",
+          "message": "Are we still on for lunch?",
+          "timestamp": "2023-10-04T12:00:00Z"
+        },
+        {
+          "sender_id": "user_8",
+          "message": "Yes, see you at 1 PM.",
+          "timestamp": "2023-10-04T12:05:00Z"
+        }
+      ]
+    }
+  ],
+  "followings": [
+    {
+      "id": 1,
+      "first_name": "Baily",
+      "last_name": "Pettis",
+      "email": "bpettis0@vimeo.com",
+      "followers": 1,
+      "following": 1,
+      "posts": 1
+    },
+    {
+      "id": 2,
+      "first_name": "Sherman",
+      "last_name": "Adkin",
+      "email": "sadkin1@example.com",
+      "followers": 2,
+      "following": 2,
+      "posts": 2
+    },
+    {
+      "id": 3,
+      "first_name": "Gisella",
+      "last_name": "Normavell",
+      "email": "gnormavell2@cornell.edu",
+      "followers": 3,
+      "following": 3,
+      "posts": 3
+    },
+    {
+      "id": 4,
+      "first_name": "Emmie",
+      "last_name": "Petkov",
+      "email": "epetkov3@woothemes.com",
+      "followers": 4,
+      "following": 4,
+      "posts": 4
+    }
+  ]
 }
