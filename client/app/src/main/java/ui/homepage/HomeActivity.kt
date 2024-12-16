@@ -1,10 +1,10 @@
-package com.example.twitter_like.home_page
+package ui.homepage
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.twitter_like.CreateAccountActivity
-import com.example.twitter_like.LoginActivity
+import ui.auth.CreateAccountActivity
+import ui.auth.LoginActivity
 import com.example.twitter_like.R
 
 class HomeActivity : AppCompatActivity() {
