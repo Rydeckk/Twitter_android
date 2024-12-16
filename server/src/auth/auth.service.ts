@@ -14,10 +14,16 @@ export class AuthService {
   async register(data: AuthRegisterDto) {
     const { password, ...rest } = data;
     const passwordHashed = await hash(password, 10);
-    return this.usersService.createUser({
+    const user = await this.usersService.createUser({
       ...rest,
       password: passwordHashed,
     });
+    return {
+      access_token: await this.jwtService.signAsync({
+        sub: user.id,
+        email: user.email,
+      }),
+    };
   }
 
   async login(email: string, password: string) {
