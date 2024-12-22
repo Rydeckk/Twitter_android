@@ -8,7 +8,7 @@ export class UsersController {
 
   @Get()
   getCurrentUser(@Request() req: any) {
-    return this.usersService.findUserById(req.user.sub);
+    return this.usersService.getCurrentUser(req.user.sub);
   }
 
   @Put()

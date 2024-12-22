@@ -17,6 +17,11 @@ export class TweetsService {
       where: {
         userId: id,
       },
+      include: {
+        users: true,
+        retweet: true,
+        comment: true,
+      },
     });
   }
 
