@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.utils.formatDate
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
 class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<TweetsRvViewHolder>() {
@@ -23,7 +24,7 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
         val tweetData = this.tweets[position]
         holder.fullname.text = tweetData.user.username
         holder.username.text = tweetData.user.username
-        holder.date.text = tweetData.createdAt.toString()
+        holder.date.text = formatDate(tweetData.createdAt)
         holder.content.text = tweetData.content
 
         holder.tweetMainPart.setOnClickListener {

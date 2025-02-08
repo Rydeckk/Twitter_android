@@ -4,21 +4,21 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.twitter_like.data.model.GlobalDataModel
-import com.example.twitter_like.repositories.GlobalDataRepository
+import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.repositories.TweetRepository
 
 class TweetViewModel(
-    private val globalDataRepo: GlobalDataRepository,
+    private val tweetRepository: TweetRepository,
     private val context: LifecycleOwner
 ) : ViewModel() {
-    private val _globalData = MutableLiveData<GlobalDataModel>()
+    private val _tweetData = MutableLiveData<List<Tweet>>()
 
-    val globalData: LiveData<GlobalDataModel> get() = _globalData
+    val tweetData: LiveData<List<Tweet>> get() = _tweetData
 
     fun fetchGlobalData() {
-        this.globalDataRepo.globalData.observe(this.context) {
-            data -> this@TweetViewModel._globalData.value = data
+        this.tweetRepository.tweetData.observe(this.context) {
+            data -> this@TweetViewModel._tweetData.value = data
         }
-        this.globalDataRepo.getAllData()
+        this.tweetRepository.getUserTweets()
     }
 }
