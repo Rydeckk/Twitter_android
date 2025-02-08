@@ -5,6 +5,8 @@ import com.example.twitter_like.network.dto.GlobalModelDto
 
 fun mapGlobalDataDtoToGlobalDataModel(dto: GlobalModelDto): GlobalDataModel {
     return GlobalDataModel(
-        tweets = dto.tweets.map { tweetDtoToTweetModel(it) }
+        tweets = dto.tweets.map { tweetDtoToTweetModel(it) },
+        user = dto.user,
+        conversations = dto.conversations.map { conversationDtoToConversationModel(it) }
     )
 }

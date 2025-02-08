@@ -6,14 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
-import com.example.twitter_like.models.ConversationModel
-import com.example.twitter_like.models.MessageModel
+import com.example.twitter_like.data.model.message.Message
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class MessageAdapter (
-    private val messages: List<MessageModel>
+    private val messages: List<Message>
 ) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     inner class MessageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -21,7 +20,7 @@ class MessageAdapter (
         private val content = view.findViewById<TextView>(R.id.message_text)
         private val timestamp = view.findViewById<TextView>(R.id.message_time)
 
-        fun bind(message: MessageModel) {
+        fun bind(message: Message) {
             content.text = message.content
             timestamp.text = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(message.timestamp))
         }

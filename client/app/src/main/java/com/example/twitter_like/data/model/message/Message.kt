@@ -1,6 +1,6 @@
-package com.example.twitter_like.models
+package com.example.twitter_like.data.model.message
 
-data class MessageModel(
+data class Message(
     val id: Int,
     val author: String,
     val content: String,

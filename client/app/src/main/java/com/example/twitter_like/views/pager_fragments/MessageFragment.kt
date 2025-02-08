@@ -1,4 +1,4 @@
-package com.example.twitter_like.views.fragment
+package com.example.twitter_like.views.pager_fragments
 
 import androidx.fragment.app.Fragment
 import com.example.twitter_like.R
