@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Twitter_like</string>
     <string name="twitter">Twitter</string>
+    <string name="tweet_profile_picture_content_description">Profile picture</string>
+    <string name="tweet_firstname_lastname">Firstname Lastname</string>
+    <string name="tweet_username">@susername</string>
+    <string name="tweet_publication_date">· 7h</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos illo soluta natus! Obcaecati, eligendi! Earum eum modi commodi consequatur, maiores enim. Vel qui mollitia aliquam aut, itaque dicta consequatur tempora?</string>
 </resources>
