@@ -8,7 +8,7 @@ import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
-class TweetsRvAdapter (val tweets: List<Tweet>): RecyclerView.Adapter<TweetsRvViewHolder>() {
+class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.tweet, parent, false)
 

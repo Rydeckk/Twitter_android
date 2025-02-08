@@ -1,7 +1,7 @@
 package com.example.twitter_like.views.pager_fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,10 +21,9 @@ import com.example.twitter_like.views.recycler_views_adapters.home_adapters.Twee
 
 class TweetFragment : Fragment() {
 
-    private lateinit var _pagerHandler: PagerHandler
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var tweetsRv: RecyclerView
-
+    private lateinit var _pagerHandler: PagerHandler
 
     private val tweetViewModel: TweetViewModel by viewModels {
         TweetViewModelFactory(GlobalDataRepository(), this)
@@ -53,7 +52,7 @@ class TweetFragment : Fragment() {
         setUpSwipeToRefreshListeners()
     }
 
-    private fun setUpPostsRv(tweets: List<Tweet>, fragmentView: View) {
+    private fun setUpTweetsRv(tweets: List<Tweet>, fragmentView: View) {
         this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
         this.tweetsRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         this.tweetsRv.adapter = TweetsRvAdapter(tweets)
@@ -61,7 +60,7 @@ class TweetFragment : Fragment() {
 
     private fun fetchData(fragmentView: View) {
         tweetViewModel.globalData.observe(viewLifecycleOwner) { data ->
-            setUpPostsRv(getUserTweets(data), fragmentView)
+            setUpTweetsRv(getUserTweets(data), fragmentView)
             this.swipeRefreshLayout.isRefreshing = false
         }
         tweetViewModel.fetchGlobalData()
@@ -73,6 +72,7 @@ class TweetFragment : Fragment() {
 
     private fun setUpSwipeToRefreshListeners() {
         this.swipeRefreshLayout.setOnRefreshListener {
+            this.swipeRefreshLayout.isRefreshing = true
             this.tweetViewModel.fetchGlobalData()
         }
     }
