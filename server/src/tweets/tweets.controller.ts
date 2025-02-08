@@ -24,7 +24,6 @@ export class TweetsController {
   @Get('user')
   // TODO @nicolas
   findAllUserTweets(@Request() req: any) {
-    console.log('bonjour');
     return this.tweetsService.getAllUserTweets(req.user.sub);
   }
 
