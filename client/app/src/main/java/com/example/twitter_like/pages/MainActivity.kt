@@ -1,4 +1,4 @@
-package com.example.twitter_like
+package com.example.twitter_like.pages
 
 import android.os.Bundle
 import android.widget.ImageButton
@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
+import com.example.twitter_like.R
 import com.example.twitter_like.pages.interfaces.PagerHandler
 import com.example.twitter_like.views.ViewPagerAdapter
 
@@ -90,5 +91,4 @@ class MainActivity : AppCompatActivity(), PagerHandler {
     override fun displayMessagesPage() {
         this.dymagramPager.currentItem = 3
     }
-
 }

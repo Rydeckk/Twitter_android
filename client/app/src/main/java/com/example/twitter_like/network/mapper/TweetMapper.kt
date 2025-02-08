@@ -1,0 +1,13 @@
+package com.example.twitter_like.network.mapper
+
+import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.network.dto.tweets_dto.TweetDto
+
+fun tweetDtoToTweetModel(dto: TweetDto): Tweet {
+    return Tweet(
+        content = dto.content,
+        user = dto.user,
+        userId = dto.userId,
+        createdAt = dto.createdAt,
+    )
+}
