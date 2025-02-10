@@ -17,6 +17,9 @@ export class TweetsService {
       where: {
         userId: id,
       },
+      include: {
+        user: true,
+      },
     });
   }
 

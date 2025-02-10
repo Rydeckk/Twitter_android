@@ -17,8 +17,8 @@ export class TweetsController {
   constructor(private readonly tweetsService: TweetsService) {}
 
   @Post()
-  create(@Body() body: CreateTweetDto) {
-    return this.tweetsService.create(body);
+  create(@Request() req: any, @Body() body: CreateTweetDto) {
+    return this.tweetsService.create({ ...body, userId: req.user.sub });
   }
 
   @Get('user')
