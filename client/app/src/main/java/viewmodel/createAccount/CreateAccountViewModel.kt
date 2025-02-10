@@ -9,8 +9,11 @@ import com.example.twitter_like.api.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.twitter_like.ui.token.TokenManager
+import android.content.Context
 
-class CreateAccountViewModel : ViewModel() {
+
+class CreateAccountViewModel(private val context: Context) : ViewModel() {
 
     // LiveData pour suivre l'état de l'inscription
     private val _registerSuccess = MutableLiveData<Boolean>()
@@ -18,6 +21,9 @@ class CreateAccountViewModel : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
+
+    private val tokenManager = TokenManager(context)
+
 
     fun registerUser(username: String, email: String, password: String) {
         val request = RegisterRequest(username, email, password)
@@ -28,7 +34,10 @@ class CreateAccountViewModel : ViewModel() {
                 response: Response<RegisterResponse>
             ) {
                 if (response.isSuccessful) {
+                    val token = response.body()!!.access_token
+                    tokenManager.saveToken(token)
                     _registerSuccess.postValue(true)
+
                 } else {
                     _errorMessage.postValue("Erreur : ${response.code()} - ${response.message()}")
                 }

@@ -13,5 +13,6 @@ data class RegisterRequest(
 
 // Réponse du serveur
 data class RegisterResponse(
-    val message: String
+    val message: String,
+    val access_token: String
 )

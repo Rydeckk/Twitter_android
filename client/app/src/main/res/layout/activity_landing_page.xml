@@ -15,6 +15,16 @@
         android:layout_marginTop="50dp"
         android:paddingLeft="30dp"/>
 
+    <TextView
+        android:id="@+id/token_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Token affiché ici"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_below="@id/whitelogo"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

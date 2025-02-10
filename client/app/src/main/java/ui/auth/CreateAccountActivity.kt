@@ -13,6 +13,8 @@ import viewmodel.landing.LandingPageActivity
 import com.example.twitter_like.R
 import com.example.twitter_like.viewmodel.CreateAccountViewModel
 
+
+
 class CreateAccountActivity : AppCompatActivity() {
 
     // Initialisation du ViewModel
@@ -21,7 +23,7 @@ class CreateAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_account)
-
+        observeViewModel()
         val crossButton = findViewById<ImageView>(R.id.cross)
         val usernameField = findViewById<EditText>(R.id.username)
         val emailField = findViewById<EditText>(R.id.email)
