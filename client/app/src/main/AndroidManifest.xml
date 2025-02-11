@@ -23,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ui.auth.LoginActivity" />
-        <activity android:name="ui.auth.CreateAccountActivity" />
-        <activity android:name="viewmodel.landing.LandingPageActivity" />
     </application>
 
 </manifest>
