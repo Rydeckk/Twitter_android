@@ -14,21 +14,18 @@ export class AuthService {
   async register(data: AuthRegisterDto) {
     const { password, ...rest } = data;
     const passwordHashed = await hash(password, 10);
-    const user = await this.usersService.createUser({
+
+    return this.usersService.createUser({
       ...rest,
       password: passwordHashed,
     });
-    return {
-      access_token: await this.jwtService.signAsync({
-        sub: user.id,
-        email: user.email,
-      }),
-    };
   }
 
   async login(email: string, password: string) {
     const user = await this.usersService.findUserByEmail(email);
-    if (!user || (await compare(user.password, password))) {
+    const isPasswordValid = await compare(password, user.password);
+
+    if (!user || !isPasswordValid) {
       throw new UnauthorizedException();
     }
     return {

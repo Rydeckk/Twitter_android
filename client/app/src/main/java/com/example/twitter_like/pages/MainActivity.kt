@@ -47,10 +47,10 @@ class MainActivity : AppCompatActivity(), PagerHandler {
     private fun setUpMainPager() {
         this.dymagramPager = findViewById(R.id.main_pager)
 
-        val mainPagerAdapter = ViewPagerAdapter(this, this)
+        val mainPagerAdapter = ViewPagerAdapter(this, this, this.dymagramPager)
         this.dymagramPager.adapter = mainPagerAdapter
 
-        displayHomePage()
+        displayAuthFragment()
     }
 
     private fun updateButtonColors(activePage: Int) {
@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity(), PagerHandler {
         buttons.forEachIndexed { index, button ->
             button.setColorFilter(if (index == activePage) activeColor else inactiveColor)
         }
+    }
+
+    private fun displayAuthFragment() {
+        this.dymagramPager.currentItem = 4
     }
 
     override fun displayHomePage() {

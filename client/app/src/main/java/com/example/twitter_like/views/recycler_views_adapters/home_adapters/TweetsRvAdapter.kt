@@ -31,5 +31,4 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
             Log.d("Tweet card", "Tweet card clicked")
         }
     }
-
 }

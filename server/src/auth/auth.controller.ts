@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthLoginDto, AuthRegisterDto } from './dto/auth.dto';
 import { Public } from './auth.guard';
@@ -10,7 +10,16 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() body: AuthRegisterDto) {
-    return this.authService.register(body);
+    try {
+      await this.authService.register(body);
+      return {
+        status: 200,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+      };
+    }
   }
 
   @Public()
@@ -18,12 +27,5 @@ export class AuthController {
   async login(@Body() body: AuthLoginDto) {
     const { email, password } = body;
     return this.authService.login(email, password);
-  }
-
-  @Public()
-  @Get('hello')
-  async hello() {
-    
-    return "hello";
   }
 }
