@@ -22,8 +22,8 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
 
     override fun onBindViewHolder(holder: TweetsRvViewHolder, position: Int) {
         val tweetData = this.tweets[position]
-        holder.fullname.text = tweetData.user.username
-        holder.username.text = tweetData.user.username
+        holder.fullname.text = tweetData.users.username
+        holder.username.text = tweetData.users.username
         holder.date.text = formatDate(tweetData.createdAt)
         holder.content.text = tweetData.content
 

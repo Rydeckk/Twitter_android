@@ -6,7 +6,7 @@ import com.example.twitter_like.network.dto.tweets_dto.TweetDto
 fun tweetDtoToTweetModel(dto: TweetDto): Tweet {
     return Tweet(
         content = dto.content,
-        user = dto.user,
+        users = dto.users,
         userId = dto.userId,
         createdAt = dto.createdAt,
     )

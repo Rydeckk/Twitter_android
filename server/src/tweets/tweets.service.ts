@@ -18,7 +18,7 @@ export class TweetsService {
         userId: id,
       },
       include: {
-        user: true,
+        users: true,
       },
     });
   }

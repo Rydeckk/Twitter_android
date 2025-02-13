@@ -6,6 +6,6 @@ import java.time.LocalDateTime
 data class Tweet(
     val content: String,
     val createdAt: String,
-    val user: UserDto,
+    val users: UserDto,
     val userId: String
 )
