@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/protected_page_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.08">
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <LinearLayout
+        android:id="@+id/main_navbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="0.92"
+        android:background="@color/black">
+        <ImageButton
+            android:id="@+id/bt_home"
+            android:background="@color/noBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:src="@drawable/home"/>
+        <ImageButton
+            android:id="@+id/bt_search"
+            android:background="@color/noBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:src="@drawable/search"/>
+        <ImageButton
+            android:id="@+id/bt_notification"
+            android:background="@color/noBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:src="@drawable/notification"/>
+        <ImageButton
+            android:id="@+id/bt_message"
+            android:background="@color/noBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:src="@drawable/message"/>
+    </LinearLayout>
+</LinearLayout>

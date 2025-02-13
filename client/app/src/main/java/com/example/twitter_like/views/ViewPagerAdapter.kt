@@ -2,26 +2,23 @@ package com.example.twitter_like.views
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.twitter_like.pages.interfaces.PagerHandler
-import com.example.twitter_like.views.pager_fragments.TweetFragment
+import androidx.viewpager2.widget.ViewPager2
+import com.example.twitter_like.views.pager_fragments.AuthFragment
+import com.example.twitter_like.views.pager_fragments.ProtectedPageFragment
 
-class ViewPagerAdapter(activity: com.example.twitter_like.pages.MainActivity, private val pagerHandler: PagerHandler): FragmentStateAdapter(activity) {
+class ViewPagerAdapter(
+    activity: com.example.twitter_like.pages.MainActivity,
+    private val viewPager: ViewPager2
+) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
-        return 4
+        return 2
     }
-
     override fun createFragment(position: Int): Fragment {
-        val homePage = TweetFragment.newInstance(pagerHandler)
-        return when(position) {
-            0 -> homePage
-            1 -> //TODO SearchFragment
-                Fragment()
-            2 -> //TODO NotificationFragment
-                Fragment()
-            3 -> //TODO MessagesFragment
-                Fragment()
-            else -> //TODO HomeFragment
-                Fragment()
+        val authFragment = AuthFragment.newInstance(viewPager)
+        return when (position) {
+            0 -> ProtectedPageFragment()
+            1 -> authFragment
+            else -> authFragment
         }
     }
 }

@@ -10,7 +10,16 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() body: AuthRegisterDto) {
-    return this.authService.register(body);
+    try {
+      await this.authService.register(body);
+      return {
+        status: 200,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+      };
+    }
   }
 
   @Public()

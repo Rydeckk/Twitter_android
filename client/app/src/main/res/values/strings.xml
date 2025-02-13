@@ -6,4 +6,12 @@
     <string name="tweet_username">@susername</string>
     <string name="tweet_publication_date">· 7h</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos illo soluta natus! Obcaecati, eligendi! Earum eum modi commodi consequatur, maiores enim. Vel qui mollitia aliquam aut, itaque dicta consequatur tempora?</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="email">Email</string>
+    <string name="tweet_logo">Tweet logo</string>
+    <string name="close">Close</string>
+    <string name="inscription">Inscription</string>
+    <string name="pas_de_compte_inscrivez_vous">Pas de compte ? Inscrivez-vous.</string>
+    <string name="d_j_un_compte_connectez_vous">Déjà un compte ? connectez-vous</string>
 </resources>
