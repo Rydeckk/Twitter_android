@@ -14,7 +14,6 @@ import com.example.twitter_like.repositories.AuthRepository
 
 class AuthViewModel(
     private val authRepository: AuthRepository,
-    private val context: LifecycleOwner
 ) : ViewModel() {
     fun register(registerData: RegisterRequest, callback: GenericCallback<Register>) {
         authRepository.registerUser(registerData, object : GenericCallback<Register> {

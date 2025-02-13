@@ -10,35 +10,26 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.twitter_like.pages.interfaces.PagerHandler
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
 
-class TweetFragment : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var tweetsRv: RecyclerView
-    private lateinit var _pagerHandler: PagerHandler
 
     private val tweetViewModel: TweetViewModel by viewModels {
-        TweetViewModelFactory(TweetRepository(), this)
-    }
-
-    companion object {
-        fun newInstance(pageHandler: PagerHandler): TweetFragment {
-            return TweetFragment().also {
-                it._pagerHandler = pageHandler
-            }
-        }
+        TweetViewModelFactory(TweetRepository(requireContext()))
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.tweet_rv, container, false)
+        val view = inflater.inflate(R.layout.home_fragment, container, false)
         this.swipeRefreshLayout = view.findViewById(R.id.tweet_rv_swipe_refresh_layout)
         return view
     }
@@ -46,27 +37,46 @@ class TweetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchData(view)
-        setUpSwipeToRefreshListeners()
+        setUpSwipeToRefreshListeners(view)
     }
 
     private fun setUpTweetsRv(tweets: List<Tweet>, fragmentView: View) {
         this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
-        this.tweetsRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        this.tweetsRv.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         this.tweetsRv.adapter = TweetsRvAdapter(tweets)
     }
 
     private fun fetchData(fragmentView: View) {
-        tweetViewModel.tweetData.observe(viewLifecycleOwner) { data ->
-            setUpTweetsRv(data, fragmentView)
-            this.swipeRefreshLayout.isRefreshing = false
-        }
-        tweetViewModel.fetchGlobalData()
+        tweetViewModel.fetchGlobalData(object : GenericCallback<List<Tweet>> {
+            override fun onSuccess(data: List<Tweet>) {
+                setUpTweetsRv(data, fragmentView)
+                swipeRefreshLayout.isRefreshing = false
+            }
+
+            override fun onError(error: String) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
-    private fun setUpSwipeToRefreshListeners() {
+    private fun setUpSwipeToRefreshListeners(fragmentView: View) {
         this.swipeRefreshLayout.setOnRefreshListener {
             this.swipeRefreshLayout.isRefreshing = true
-            this.tweetViewModel.fetchGlobalData()
+            tweetViewModel.fetchGlobalData(object : GenericCallback<List<Tweet>> {
+                override fun onSuccess(data: List<Tweet>) {
+                    setUpTweetsRv(data, fragmentView)
+                    swipeRefreshLayout.isRefreshing = false
+                }
+
+                override fun onError(error: String) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        fetchData(requireView())
     }
 }

@@ -23,7 +23,7 @@ class RegisterFragment : Fragment() {
     private lateinit var _authHandler: AuthHandler
 
     private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory(AuthRepository(), this)
+        AuthViewModelFactory(AuthRepository())
     }
 
     companion object {

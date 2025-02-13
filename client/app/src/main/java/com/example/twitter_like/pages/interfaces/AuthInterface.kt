@@ -6,13 +6,3 @@ interface AuthHandler {
     fun displayRegisterPage()
     fun displayLoginPage()
 }
-
-class AuthHandlerImpl(private val viewPager: ViewPager2) : AuthHandler {
-    override fun displayRegisterPage() {
-        viewPager.currentItem = 0
-    }
-
-    override fun displayLoginPage() {
-        viewPager.currentItem = 1
-    }
-}

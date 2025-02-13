@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 
 class AuthFragment : Fragment(), AuthHandler {
     private lateinit var dymagramPager: ViewPager2
-    private lateinit var _authHandler: AuthHandler
+    private lateinit var _mainPager: ViewPager2
 
     companion object {
-        fun newInstance(authHandler: AuthHandler): AuthFragment {
+        fun newInstance(mainPager: ViewPager2): AuthFragment {
             return AuthFragment().also {
-                it._authHandler = authHandler
+                it._mainPager = mainPager
             }
         }
     }
@@ -37,7 +37,7 @@ class AuthFragment : Fragment(), AuthHandler {
 
     private fun setUpMainPager(view: View) {
         dymagramPager = view.findViewById(R.id.auth_pager)
-        val authPagerAdapter = AuthAdapter(this, this)
+        val authPagerAdapter = AuthAdapter(this, this, _mainPager)
         dymagramPager.adapter = authPagerAdapter
         displayRegisterPage()
     }

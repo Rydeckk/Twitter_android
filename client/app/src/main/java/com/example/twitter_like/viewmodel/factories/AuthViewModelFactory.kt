@@ -9,11 +9,10 @@ import com.example.twitter_like.viewmodel.AuthViewModel
 
 class AuthViewModelFactory(
     private val repository: AuthRepository,
-    private val fragment: Fragment
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AuthViewModel::class.java)) {
-            return AuthViewModel(repository, fragment) as T
+            return AuthViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

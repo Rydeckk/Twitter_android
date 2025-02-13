@@ -1,5 +1,6 @@
 package com.example.twitter_like.views.pager_fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -11,6 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.auth.Login
 import com.example.twitter_like.data.model.auth.Register
@@ -23,15 +25,17 @@ import com.example.twitter_like.viewmodel.factories.AuthViewModelFactory
 
 class LoginFragment : Fragment() {
     private lateinit var _authHandler: AuthHandler
+    private lateinit var _mainPager: ViewPager2
 
     private val authViewModel: AuthViewModel by viewModels {
-        AuthViewModelFactory(AuthRepository(), this)
+        AuthViewModelFactory(AuthRepository())
     }
 
     companion object {
-        fun newInstance(authHandler: AuthHandler): LoginFragment {
+        fun newInstance(authHandler: AuthHandler, mainPager: ViewPager2): LoginFragment {
             return LoginFragment().also {
                 it._authHandler = authHandler
+                it._mainPager = mainPager
             }
         }
     }
@@ -68,13 +72,22 @@ class LoginFragment : Fragment() {
                 return@setOnClickListener
             }
 
-
-
             authViewModel.login(LoginRequest(email, password), object : GenericCallback<Login> {
                 override fun onSuccess(data: Login) {
                     Toast.makeText(requireContext(), "Connexion réussie !", Toast.LENGTH_SHORT)
                         .show()
+                    val sharedPreferences = requireContext().getSharedPreferences(
+                        "MY_APP_SHARED_PREFS",
+                        Context.MODE_PRIVATE
+                    )
+                    sharedPreferences.edit()
+                        .putString("token", data.accessToken)
+                        .apply()
+
+                    val token = sharedPreferences.getString("token", null)
+                    displayProtectedFragment()
                 }
+
                 override fun onError(error: String) {
                     Toast.makeText(
                         requireContext(),
@@ -88,6 +101,10 @@ class LoginFragment : Fragment() {
         goToRegister.setOnClickListener {
             _authHandler.displayRegisterPage()
         }
+    }
+
+    private fun displayProtectedFragment() {
+        this._mainPager.currentItem = 0
     }
 
 }
