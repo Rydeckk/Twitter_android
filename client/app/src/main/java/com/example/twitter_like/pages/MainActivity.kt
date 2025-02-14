@@ -1,7 +1,9 @@
 package com.example.twitter_like.pages
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity(), PagerHandler {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         setUpMainPager()
+
     }
 
     private fun setUpMainPager() {

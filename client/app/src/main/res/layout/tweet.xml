@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/tweet_profile_picture_content_description"
-                android:src="@drawable/profile_picture" />
+                android:src="@drawable/profile_picture2" />
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout

@@ -38,5 +38,9 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
         holder.tweetMainPart.setOnClickListener {
             Log.d("Tweet card", "Tweet card clicked")
         }
+
+
     }
+
+
 }
