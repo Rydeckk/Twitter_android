@@ -1,20 +1,36 @@
 package com.example.twitter_like.views.pager_fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
 
 import com.example.twitter_like.pages.interfaces.ProtectedPageHandler
 import com.example.twitter_like.views.ProtectedPagerAdapter
+import com.google.android.material.navigation.NavigationView
 
-class ProtectedPageFragment: Fragment(), ProtectedPageHandler {
+class ProtectedPageFragment : Fragment(), ProtectedPageHandler {
     private lateinit var dymagramPager: ViewPager2
+    lateinit var _mainPager: ViewPager2
+    private lateinit var drawerLayout: DrawerLayout
+
+    companion object {
+        fun newInstance(mainPager: ViewPager2): ProtectedPageFragment {
+            return ProtectedPageFragment().also {
+                it._mainPager = mainPager
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +42,51 @@ class ProtectedPageFragment: Fragment(), ProtectedPageHandler {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+        val navigationView: NavigationView = view.findViewById(R.id.nav_view)
+        drawerLayout = view.findViewById(R.id.drawer_layout)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(
+            requireActivity(),
+            drawerLayout,
+            toolbar,
+            R.string.nav_open,
+            R.string.nav_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_profile -> {
+                    displayUserProfilPage()
+                }
+
+                R.id.nav_home -> {
+                    displayHomePage()
+                }
+
+                R.id.nav_explore -> {
+                    displaySearchPage()
+                }
+
+                R.id.nav_notification -> {
+                    displayNotificationPage()
+                }
+
+                R.id.nav_message -> {
+                    displayMessagesPage()
+                }
+
+                R.id.nav_deconnexion -> {
+                    logout()
+                }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
 
         view.findViewById<ImageButton>(R.id.bt_home).setOnClickListener {
             displayHomePage()
@@ -48,7 +109,7 @@ class ProtectedPageFragment: Fragment(), ProtectedPageHandler {
 
     private fun setUpMainPager(view: View) {
         dymagramPager = view.findViewById(R.id.protected_page_pager)
-        val protectedPagerAdapter = ProtectedPagerAdapter(this, this, this.dymagramPager)
+        val protectedPagerAdapter = ProtectedPagerAdapter(this, this, this._mainPager)
         dymagramPager.adapter = protectedPagerAdapter
         this.dymagramPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -87,5 +148,16 @@ class ProtectedPageFragment: Fragment(), ProtectedPageHandler {
 
     override fun displayMessagesPage() {
         this.dymagramPager.currentItem = 3
+    }
+
+    override fun displayUserProfilPage() {
+        this.dymagramPager.currentItem = 4
+    }
+
+    private fun logout() {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove("token").apply()
+        _mainPager.currentItem = 1
     }
 }

@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity(), PagerHandler {
 
         val sharedPreferences = this.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", null)
-        // COMMENT to remove token
-        // sharedPreferences.edit().remove("token").apply()
+
         if (token.isNullOrEmpty()) {
             displayAuthFragment()
         } else {
