@@ -5,24 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.twitter_like.viewmodel.TweetViewModel
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
+import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
-import com.example.twitter_like.data.model.tweet.Tweet
-import com.example.twitter_like.network.callback.GenericCallback
-import com.example.twitter_like.repositories.TweetRepository
-import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
+import com.example.twitter_like.pages.interfaces.HomePagerHandler
+import com.example.twitter_like.pages.interfaces.ProtectedPageHandler
+import com.example.twitter_like.views.HomePagerAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
-class HomeFragment : Fragment() {
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var tweetsRv: RecyclerView
+class HomeFragment : Fragment(), HomePagerHandler {
+    private lateinit var _mainPager: ViewPager2
+    private lateinit var _protectedPager: ProtectedPageHandler
+    private lateinit var homeDynagramPager: ViewPager2
 
-    private val tweetViewModel: TweetViewModel by viewModels {
-        TweetViewModelFactory(TweetRepository(requireContext()))
+    companion object {
+        fun newInstance(protectedPager: ProtectedPageHandler, mainPager: ViewPager2): HomeFragment {
+            return HomeFragment().also {
+                it._mainPager = mainPager
+                it._protectedPager = protectedPager
+            }
+        }
     }
 
     override fun onCreateView(
@@ -30,53 +32,32 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.home_fragment, container, false)
-        this.swipeRefreshLayout = view.findViewById(R.id.tweet_rv_swipe_refresh_layout)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchData(view)
-        setUpSwipeToRefreshListeners(view)
-    }
 
-    private fun setUpTweetsRv(tweets: List<Tweet>, fragmentView: View) {
-        this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
-        this.tweetsRv.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        this.tweetsRv.adapter = TweetsRvAdapter(tweets)
-    }
+        val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
+        val viewPager = view.findViewById<ViewPager2>(R.id.home_view_pager)
 
-    private fun fetchData(fragmentView: View) {
-        tweetViewModel.fetchGlobalData(object : GenericCallback<List<Tweet>> {
-            override fun onSuccess(data: List<Tweet>) {
-                setUpTweetsRv(data, fragmentView)
-                swipeRefreshLayout.isRefreshing = false
+        val adapter = HomePagerAdapter(this, this, this._protectedPager)
+        viewPager.adapter = adapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Pour vous"
+                1 -> "Abonnements"
+                else -> null
             }
+        }.attach()
 
-            override fun onError(error: String) {
-                TODO("Not yet implemented")
-            }
-        })
     }
 
-    private fun setUpSwipeToRefreshListeners(fragmentView: View) {
-        this.swipeRefreshLayout.setOnRefreshListener {
-            this.swipeRefreshLayout.isRefreshing = true
-            tweetViewModel.fetchGlobalData(object : GenericCallback<List<Tweet>> {
-                override fun onSuccess(data: List<Tweet>) {
-                    setUpTweetsRv(data, fragmentView)
-                    swipeRefreshLayout.isRefreshing = false
-                }
-
-                override fun onError(error: String) {
-                    TODO("Not yet implemented")
-                }
-            })
-        }
+    override fun displayAllTweet() {
+        homeDynagramPager.currentItem = 0;
     }
-    override fun onResume() {
-        super.onResume()
-        fetchData(requireView())
+
+    override fun displayFollowingUsersTweets() {
+        homeDynagramPager.currentItem = 1;
     }
 }

@@ -15,8 +15,10 @@ class ViewPagerAdapter(
     }
     override fun createFragment(position: Int): Fragment {
         val authFragment = AuthFragment.newInstance(viewPager)
+        val protectedPageFragment = ProtectedPageFragment.newInstance(viewPager)
+
         return when (position) {
-            0 -> ProtectedPageFragment()
+            0 -> protectedPageFragment
             1 -> authFragment
             else -> authFragment
         }

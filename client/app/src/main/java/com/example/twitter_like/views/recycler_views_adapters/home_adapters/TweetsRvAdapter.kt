@@ -26,11 +26,6 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
         holder.username.text = tweetData.users.username
         holder.date.text = formatDate(tweetData.createdAt)
         holder.content.text = tweetData.content
-
-        holder.tweetMainPart.setOnClickListener {
-            Log.d("Tweet card", "Tweet card clicked")
-        }
-
         holder.commentCount.text = "23K"
         holder.retweetCount.text = "47K"
         holder.likeCount.text = "321K"
