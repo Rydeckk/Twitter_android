@@ -60,4 +60,6 @@ class HomeFragment : Fragment(), HomePagerHandler {
     override fun displayFollowingUsersTweets() {
         homeDynagramPager.currentItem = 1;
     }
+
+
 }

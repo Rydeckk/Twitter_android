@@ -61,7 +61,7 @@ class ProtectedPageFragment : Fragment(), ProtectedPageHandler {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_profile -> {
-                    displayUserProfilPage()
+                    displayUserProfilePage()
                 }
 
                 R.id.nav_home -> {
@@ -150,7 +150,7 @@ class ProtectedPageFragment : Fragment(), ProtectedPageHandler {
         this.dymagramPager.currentItem = 3
     }
 
-    override fun displayUserProfilPage() {
+    override fun displayUserProfilePage() {
         this.dymagramPager.currentItem = 4
     }
 
@@ -160,4 +160,5 @@ class ProtectedPageFragment : Fragment(), ProtectedPageHandler {
         sharedPreferences.edit().remove("token").apply()
         _mainPager.currentItem = 1
     }
+
 }

@@ -5,5 +5,5 @@ interface ProtectedPageHandler {
     fun displaySearchPage()
     fun displayNotificationPage()
     fun displayMessagesPage()
-    fun displayUserProfilPage()
+    fun displayUserProfilePage()
 }
