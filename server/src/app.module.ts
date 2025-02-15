@@ -8,6 +8,7 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { AuthGuard } from './auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { MessagesModule } from './messages/messages.module';
+import { FollowsModule } from './follows/follows.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MessagesModule } from './messages/messages.module';
     TweetsModule,
     ConversationsModule,
     MessagesModule,
+    FollowsModule,
   ],
   controllers: [AppController],
   providers: [
