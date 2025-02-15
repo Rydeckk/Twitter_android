@@ -1,6 +1,5 @@
 package com.example.twitter_like.views.pager_fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.network.callback.GenericCallback
-import com.example.twitter_like.pages.ProfileActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
 
@@ -40,13 +38,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fetchData(view)
         setUpSwipeToRefreshListeners(view)
-
-        val profilePicture = view.findViewById<com.google.android.material.imageview.ShapeableImageView>(R.id.profile_picture)
-        profilePicture.setOnClickListener {
-            val intent = Intent(requireContext(), ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
     }
 
     private fun setUpTweetsRv(tweets: List<Tweet>, fragmentView: View) {

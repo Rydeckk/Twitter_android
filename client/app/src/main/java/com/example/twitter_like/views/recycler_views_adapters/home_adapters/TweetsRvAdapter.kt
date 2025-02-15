@@ -34,13 +34,5 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
         holder.commentCount.text = "23K"
         holder.retweetCount.text = "47K"
         holder.likeCount.text = "321K"
-
-        holder.tweetMainPart.setOnClickListener {
-            Log.d("Tweet card", "Tweet card clicked")
-        }
-
-
     }
-
-
 }
