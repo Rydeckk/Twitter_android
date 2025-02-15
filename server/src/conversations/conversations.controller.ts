@@ -10,18 +10,21 @@ export class ConversationsController {
   constructor(private readonly conversationsService: ConversationsService) {}
 
   @Post('user')
-  createConversation(@Request() req: any, @Body() body: CreateConversationDto) {
+  createConversation(
+    @Request() req: Request,
+    @Body() body: CreateConversationDto,
+  ) {
     return this.conversationsService.createConversation(req.user.sub, body);
   }
 
   @Get('user')
-  getUserConversations(@Request() req: any) {
+  getUserConversations(@Request() req: Request) {
     return this.conversationsService.getUserConversations(req.user.sub);
   }
 
   @Delete('user')
   deleteUserConversation(
-    @Request() req: any,
+    @Request() req: Request,
     @Body() body: DeleteConversationDto,
   ) {
     return this.conversationsService.deleteUserConversation(req.user.sub, body);

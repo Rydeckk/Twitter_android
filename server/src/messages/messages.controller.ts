@@ -15,7 +15,7 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Post()
-  sendMessage(@Request() req: any, @Body() body: CreateMessageDto) {
+  sendMessage(@Request() req: Request, @Body() body: CreateMessageDto) {
     return this.messagesService.sendMessage(req.user.sub, body);
   }
 

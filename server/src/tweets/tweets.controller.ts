@@ -17,13 +17,22 @@ export class TweetsController {
   constructor(private readonly tweetsService: TweetsService) {}
 
   @Post()
-  create(@Request() req: any, @Body() body: CreateTweetDto) {
+  create(@Request() req: Request, @Body() body: CreateTweetDto) {
     return this.tweetsService.create({ ...body, userId: req.user.sub });
   }
 
+  @Get()
+  findAllTweets() {
+    return this.tweetsService.getAllTweets();
+  }
+
+  @Get('follow')
+  findFollowTweets(@Request() req: Request) {
+    return this.tweetsService.getAllFollowTweets(req.user.sub);
+  }
+
   @Get('user')
-  // TODO @nicolas
-  findAllUserTweets(@Request() req: any) {
+  findAllUserTweets(@Request() req: Request) {
     return this.tweetsService.getAllUserTweets(req.user.sub);
   }
 

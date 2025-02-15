@@ -7,12 +7,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getCurrentUser(@Request() req: any) {
+  getCurrentUser(@Request() req: Request) {
     return this.usersService.findUserById(req.user.sub);
   }
 
   @Put()
-  updateCurrentUser(@Request() req: any, @Body() body: UpdateUserDto) {
+  updateCurrentUser(@Request() req: Request, @Body() body: UpdateUserDto) {
     return this.usersService.updateCurrentUser(req.user.sub, body);
   }
 }
