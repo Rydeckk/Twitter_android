@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity(), PagerHandler {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         setUpMainPager()
+
     }
 
     private fun setUpMainPager() {

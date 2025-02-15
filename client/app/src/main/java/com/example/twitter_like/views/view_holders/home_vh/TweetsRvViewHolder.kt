@@ -15,4 +15,10 @@ class TweetsRvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val content = itemView.findViewById<TextView>(R.id.tweet_content)
 
     val tweetMainPart = itemView.findViewById<LinearLayout>(R.id.tweet_main_part)
+
+    val commentCount: TextView = itemView.findViewById(R.id.tweet_comment_count)
+    val retweetCount: TextView = itemView.findViewById(R.id.tweet_retweet_count)
+    val likeCount: TextView = itemView.findViewById(R.id.tweet_like_count)
+    val profilePicture: ImageView = itemView.findViewById(R.id.tweet_profile_picture)
+
 }
