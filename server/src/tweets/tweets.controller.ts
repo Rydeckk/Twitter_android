@@ -10,7 +10,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { TweetsService } from './tweets.service';
-import { CreateTweetDto, UpdateTweetDto } from './dto/tweet.dto';
+import { CreateTweetDto, LikeDto, UpdateTweetDto } from './dto/tweet.dto';
 
 @Controller('tweets')
 export class TweetsController {
@@ -21,9 +21,17 @@ export class TweetsController {
     return this.tweetsService.create({ ...body, userId: req.user.sub });
   }
 
+  @Post('like')
+  likeTweet(@Request() req: Request, @Body() body: LikeDto) {
+    return this.tweetsService.likeTweet({
+      ...body,
+      userId: req.user.sub,
+    });
+  }
+
   @Get()
-  findAllTweets() {
-    return this.tweetsService.getAllTweets();
+  findAllTweets(@Request() req: Request) {
+    return this.tweetsService.getAllTweets(req.user.sub);
   }
 
   @Get('follow')
@@ -34,6 +42,11 @@ export class TweetsController {
   @Get('user')
   findAllUserTweets(@Request() req: Request) {
     return this.tweetsService.getAllUserTweets(req.user.sub);
+  }
+
+  @Get('like')
+  findLikesTweets(@Request() req: Request) {
+    return this.tweetsService.getLikesTweets(req.user.sub);
   }
 
   @Get(':id')

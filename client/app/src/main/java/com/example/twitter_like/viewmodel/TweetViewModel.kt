@@ -41,4 +41,15 @@ class TweetViewModel(
             }
         })
     }
+
+    fun getLikesTweets(callback: GenericCallback<List<Tweet>>) {
+        this.tweetRepository.getLikesTweets( object : GenericCallback<List<Tweet>> {
+            override fun onSuccess(data: List<Tweet>) {
+                callback.onSuccess(data)
+            }
+            override fun onError(error: String) {
+                callback.onError(error)
+            }
+        })
+    }
 }

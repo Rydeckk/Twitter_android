@@ -83,4 +83,25 @@ class TweetRepository(private val context: Context) {
             }
         })
     }
+
+    fun getLikesTweets(callback: GenericCallback<List<Tweet>>) {
+        val token = getToken()!!
+        val call = tweetService.getLikesTweets(token)
+        call.enqueue(object : Callback<List<TweetDto>> {
+            override fun onResponse(
+                call: Call<List<TweetDto>>,
+                response: Response<List<TweetDto>>
+            ) {
+                val bodyResponse = response.body()
+                if (bodyResponse?.isNotEmpty() == true) {
+                    callback.onSuccess(bodyResponse.map { tweetDtoToTweetModel(it) })
+                } else {
+                    callback.onSuccess(emptyList())
+                }
+            }
+            override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
 }

@@ -15,4 +15,7 @@ interface TweetService {
 
     @GET("tweets/follow")
     fun getFollowingUsersTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
+
+    @GET("tweets/like")
+    fun getLikesTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
 }

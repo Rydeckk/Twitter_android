@@ -1,6 +1,5 @@
 package com.example.twitter_like.views
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.twitter_like.views.pager_fragments.HomeFragment
 import androidx.viewpager2.adapter.FragmentStateAdapter

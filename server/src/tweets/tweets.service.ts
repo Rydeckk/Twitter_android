@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTweetDto, UpdateTweetDto } from './dto/tweet.dto';
+import { CreateTweetDto, LikeDto, UpdateTweetDto } from './dto/tweet.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 import { FollowsService } from 'src/follows/follows.service';
@@ -27,8 +27,22 @@ export class TweetsService {
     });
   }
 
-  async getAllTweets() {
+  async likeTweet({ userId, tweetId }: LikeDto) {
+    return this.prisma.likes.create({
+      data: {
+        userId,
+        tweetId,
+      },
+    });
+  }
+
+  async getAllTweets(userId: string) {
     return this.prisma.tweets.findMany({
+      where: {
+        NOT: {
+          userId,
+        },
+      },
       include,
       orderBy,
     });
@@ -51,6 +65,20 @@ export class TweetsService {
     return this.prisma.tweets.findMany({
       where: {
         userId: id,
+      },
+      include,
+      orderBy,
+    });
+  }
+
+  async getLikesTweets(userId: string) {
+    return this.prisma.tweets.findMany({
+      where: {
+        like: {
+          some: {
+            userId,
+          },
+        },
       },
       include,
       orderBy,
