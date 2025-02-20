@@ -56,6 +56,17 @@
                 tools:itemCount="10"
                 tools:listitem="@layout/tweet" />
         </FrameLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ImageView
+        android:id="@+id/tweet_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/tweet"
+        android:contentDescription="Bouton tweet"
+        android:backgroundTint="@color/black"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

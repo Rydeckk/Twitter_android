@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.example.twitter_like.viewmodel.TweetViewModel
 import androidx.fragment.app.viewModels
@@ -17,6 +18,7 @@ import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.ProfileActivity
 import com.example.twitter_like.repositories.TweetRepository
+import com.example.twitter_like.ui.NewTweetModal
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
 
 class HomeFragment : Fragment() {
@@ -46,6 +48,13 @@ class HomeFragment : Fragment() {
             val intent = Intent(requireContext(), ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        val tweetButton = view.findViewById<ImageView>(R.id.tweet_button)
+        tweetButton.setOnClickListener {
+            val modal = NewTweetModal()
+            modal.show(parentFragmentManager, "NewTweetModal")
+        }
+
 
     }
 
