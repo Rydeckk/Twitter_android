@@ -22,7 +22,7 @@ class TweetRepository(private val context: Context) {
     }
 
     fun getAllTweets(callback: GenericCallback<List<Tweet>>) {
-        val token = getToken()!!
+        val token = getToken() ?: return
         val call = tweetService.getAllTweets(token)
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
