@@ -2,7 +2,6 @@ package com.example.twitter_like.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.network.RetrofitClient
 import com.example.twitter_like.network.callback.GenericCallback
@@ -15,14 +14,15 @@ import retrofit2.Response
 
 class TweetRepository(private val context: Context) {
     private val tweetService = RetrofitClient.instance.create(TweetService::class.java)
-    private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
 
     private fun getToken(): String? {
         return sharedPreferences.getString("token", null)?.let { "Bearer $it" }
     }
 
     fun getAllTweets(callback: GenericCallback<List<Tweet>>) {
-        val token = getToken()!!
+        val token = getToken() ?: return
         val call = tweetService.getAllTweets(token)
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
@@ -36,6 +36,7 @@ class TweetRepository(private val context: Context) {
                     callback.onSuccess(emptyList())
                 }
             }
+
             override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
@@ -57,6 +58,7 @@ class TweetRepository(private val context: Context) {
                     callback.onSuccess(emptyList())
                 }
             }
+
             override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
@@ -78,6 +80,7 @@ class TweetRepository(private val context: Context) {
                     callback.onSuccess(emptyList())
                 }
             }
+
             override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
@@ -99,6 +102,7 @@ class TweetRepository(private val context: Context) {
                     callback.onSuccess(emptyList())
                 }
             }
+
             override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
                 callback.onError("Erreur réseau : ${t.message}")
             }

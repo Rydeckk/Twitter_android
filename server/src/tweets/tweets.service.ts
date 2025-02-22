@@ -36,13 +36,8 @@ export class TweetsService {
     });
   }
 
-  async getAllTweets(userId: string) {
+  async getAllTweets() {
     return this.prisma.tweets.findMany({
-      where: {
-        NOT: {
-          userId,
-        },
-      },
       include,
       orderBy,
     });

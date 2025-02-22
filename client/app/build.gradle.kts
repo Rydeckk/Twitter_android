@@ -51,4 +51,5 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.jwtdecode)
 }

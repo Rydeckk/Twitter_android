@@ -30,8 +30,8 @@ export class TweetsController {
   }
 
   @Get()
-  findAllTweets(@Request() req: Request) {
-    return this.tweetsService.getAllTweets(req.user.sub);
+  findAllTweets() {
+    return this.tweetsService.getAllTweets();
   }
 
   @Get('follow')

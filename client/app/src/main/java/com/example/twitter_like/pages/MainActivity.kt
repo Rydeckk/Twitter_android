@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), PagerHandler {
         this.dymagramPager = findViewById(R.id.main_pager)
         val mainPagerAdapter = ViewPagerAdapter(this, this.dymagramPager)
         this.dymagramPager.adapter = mainPagerAdapter
+        this.dymagramPager.isUserInputEnabled = false
 
         val sharedPreferences = this.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", null)
