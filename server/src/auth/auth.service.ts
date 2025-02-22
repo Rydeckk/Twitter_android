@@ -23,7 +23,7 @@ export class AuthService {
 
   async login(email: string, password: string) {
     const user = await this.usersService.findUserByEmail(email);
-    const isPasswordValid = await compare(password, user.password);
+    const isPasswordValid = await compare(password, user?.password);
 
     if (!user || !isPasswordValid) {
       throw new UnauthorizedException();

@@ -1,7 +1,5 @@
 package com.example.twitter_like.viewmodel.factories
 
-import android.content.Context
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.twitter_like.repositories.TweetRepository
