@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/tweet_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Quoi de neuf ?"
+        android:background="@null"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/send_tweet_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tweeter"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
