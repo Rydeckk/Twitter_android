@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,16 +16,16 @@ import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
-import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
+import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetDetailAdapter
 
 class FollowingUsersTweets : Fragment() {
     private lateinit var tweetsRv: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var navController: NavController
 
     companion object {
         fun newInstance(): FollowingUsersTweets {
-            return FollowingUsersTweets().also {
-            }
+            return FollowingUsersTweets()
         }
     }
 
@@ -52,7 +53,11 @@ class FollowingUsersTweets : Fragment() {
         this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
         this.tweetsRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        this.tweetsRv.adapter = TweetsRvAdapter(tweets)
+        this.tweetsRv.adapter = TweetDetailAdapter(tweets) { tweetId ->
+            val action =
+                AllTweetFragmentDirections.actionTweetFragmentToTweetDetailFragment(tweetId)
+            navController.navigate(action)
+        }
     }
 
 

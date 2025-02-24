@@ -101,6 +101,7 @@ export class TweetsService {
       where: {
         id,
       },
+      include,
     });
   }
 
