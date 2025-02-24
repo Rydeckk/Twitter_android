@@ -10,7 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
 import com.example.twitter_like.pages.interfaces.HomePagerHandler
 import com.example.twitter_like.pages.interfaces.ProtectedPageHandler
-import com.example.twitter_like.ui.NewTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
 import com.example.twitter_like.views.HomePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -66,6 +66,4 @@ class HomeFragment : Fragment(), HomePagerHandler {
     override fun displayFollowingUsersTweets() {
         homeDynagramPager.currentItem = 1;
     }
-
-
 }
