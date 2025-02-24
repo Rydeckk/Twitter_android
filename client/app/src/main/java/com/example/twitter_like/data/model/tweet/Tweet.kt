@@ -1,14 +1,18 @@
 package com.example.twitter_like.data.model.tweet
 
+import com.example.twitter_like.data.model.comment.Comment
+import com.example.twitter_like.data.model.like.Like
+import com.example.twitter_like.data.model.retweet.Retweet
 import com.example.twitter_like.network.dto.users_dto.UserDto
-import java.time.LocalDateTime
 
 data class Tweet(
     val content: String,
     val createdAt: String,
     val users: UserDto,
     val userId: String,
-    val commentCount: Int,
-    val retweetCount: Int,
-    val likeCount: Int
+    val tweetComments: List<Comment>,
+    val tweetRetweets: List<Retweet>,
+    val like: List<Like>,
+    val retweet: Retweet?,
+    val comment: Comment?
 )

@@ -1,6 +1,6 @@
 package com.example.twitter_like.network.services
 
-import com.example.twitter_like.data.request.user.UserApi
+import com.example.twitter_like.data.request.user.UpdateUserRequest
 import com.example.twitter_like.network.dto.users_dto.UserDto
 import retrofit2.Call
 import retrofit2.http.Body
@@ -21,6 +21,6 @@ interface UserService {
     fun updateUserById(
         @Header("Authorization") token: String,
         @Path("userId") userId: String,
-        @Body request: UserApi
-    ): Call<UserApi>
+        @Body request: UpdateUserRequest
+    ): Call<UpdateUserRequest>
 }

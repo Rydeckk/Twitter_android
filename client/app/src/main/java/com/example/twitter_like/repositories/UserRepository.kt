@@ -3,7 +3,7 @@ package com.example.twitter_like.repositories
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.twitter_like.data.model.user.User
-import com.example.twitter_like.data.request.user.UserApi
+import com.example.twitter_like.data.request.user.UpdateUserRequest
 import com.example.twitter_like.network.RetrofitClient
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.network.dto.users_dto.UserDto
@@ -40,16 +40,16 @@ class UserRepository(private val context: Context) {
         })
     }
 
-    fun updateUserById(data: UserApi, userId: String, callback: GenericCallback<Boolean>) {
+    fun updateUserById(data: UpdateUserRequest, userId: String, callback: GenericCallback<Boolean>) {
         val token = getToken() ?: return
         val call = userService.updateUserById(token, userId, data)
 
-        call.enqueue(object : Callback<UserApi> {
-            override fun onResponse(call: Call<UserApi>, response: Response<UserApi>) {
+        call.enqueue(object : Callback<UpdateUserRequest> {
+            override fun onResponse(call: Call<UpdateUserRequest>, response: Response<UpdateUserRequest>) {
                 callback.onSuccess(true)
             }
 
-            override fun onFailure(call: Call<UserApi>, t: Throwable) {
+            override fun onFailure(call: Call<UpdateUserRequest>, t: Throwable) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
 

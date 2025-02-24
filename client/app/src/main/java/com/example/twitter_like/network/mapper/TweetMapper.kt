@@ -9,8 +9,10 @@ fun tweetDtoToTweetModel(dto: TweetDto): Tweet {
         users = dto.users,
         userId = dto.userId,
         createdAt = dto.createdAt,
-        commentCount = dto.commentCount ?:0,
-        retweetCount = dto.retweetCount ?:0,
-        likeCount = dto.likeCount ?:0
+        tweetComments = dto.tweetComments,
+        tweetRetweets = dto.tweetRetweets,
+        like = dto.like,
+        comment = dto.comment,
+        retweet = dto.retweet
     )
 }

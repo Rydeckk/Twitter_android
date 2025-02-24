@@ -2,7 +2,7 @@ package com.example.twitter_like.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.twitter_like.data.model.user.User
-import com.example.twitter_like.data.request.user.UserApi
+import com.example.twitter_like.data.request.user.UpdateUserRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.UserRepository
 
@@ -19,7 +19,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
         })
     }
 
-    fun updateUserById(data: UserApi, userId: String, callback: GenericCallback<Boolean>) {
+    fun updateUserById(data: UpdateUserRequest, userId: String, callback: GenericCallback<Boolean>) {
         this.userRepository.updateUserById(data, userId, object : GenericCallback<Boolean> {
             override fun onSuccess(data: Boolean) {
                 callback.onSuccess(data)

@@ -9,7 +9,8 @@ import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.utils.formatDate
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
-class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<TweetsRvViewHolder>() {
+class TweetsRvAdapter(private val tweets: List<Tweet>) :
+    RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.tweet, parent, false)
 
@@ -26,8 +27,8 @@ class TweetsRvAdapter (private val tweets: List<Tweet>): RecyclerView.Adapter<Tw
         holder.username.text = tweetData.users.username
         holder.date.text = formatDate(tweetData.createdAt)
         holder.content.text = tweetData.content
-        holder.commentCount.text = tweetData.commentCount.toString()
-        holder.retweetCount.text = tweetData.retweetCount.toString()
-        holder.likeCount.text = tweetData.likeCount.toString()
+        holder.commentCount.text = tweetData.tweetComments.size.toString()
+        holder.retweetCount.text = tweetData.tweetRetweets.size.toString()
+        holder.likeCount.text = tweetData.like.size.toString()
     }
 }

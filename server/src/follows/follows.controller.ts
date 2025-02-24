@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Param, Post, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { FollowsService } from './follows.service';
-import { CreateFollowDto } from './dto/follow.dto';
+import { CreateFollowDto, UnfollowDto } from './dto/follow.dto';
 
 @Controller('follows')
 export class FollowsController {
@@ -9,6 +17,14 @@ export class FollowsController {
   @Post()
   follow(@Request() req: Request, @Body() body: CreateFollowDto) {
     return this.followsService.follow({
+      ...body,
+      followedById: req.user.sub,
+    });
+  }
+
+  @Delete('')
+  unfollow(@Request() req: Request, @Body() body: UnfollowDto) {
+    return this.followsService.unfollow({
       ...body,
       followedById: req.user.sub,
     });
