@@ -3,7 +3,6 @@ package com.example.twitter_like.views.pager_fragments.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -12,7 +11,7 @@ import androidx.fragment.app.viewModels
 import com.auth0.android.jwt.JWT
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.user.User
-import com.example.twitter_like.data.request.user.UserApi
+import com.example.twitter_like.data.request.user.UpdateUserRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.UserRepository
 import com.example.twitter_like.viewmodel.UserViewModel
@@ -58,7 +57,7 @@ class UpdateUserDialogFragment(private val onDialogClosed: () -> Unit) :
 
         onSubmit.setOnClickListener {
             userViewModel.updateUserById(
-                UserApi(
+                UpdateUserRequest(
                     firstnameInput.text.toString(),
                     lastnameInput.text.toString(),
                     usernameInput.text.toString(),

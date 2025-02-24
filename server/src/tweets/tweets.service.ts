@@ -6,6 +6,12 @@ import { FollowsService } from 'src/follows/follows.service';
 
 const include: Prisma.TweetsInclude = {
   users: true,
+  like: true,
+  tweetComments: true,
+  tweetRetweets: true,
+  pictures: true,
+  retweet: true,
+  comment: true,
 };
 
 const orderBy:
@@ -38,6 +44,16 @@ export class TweetsService {
 
   async getAllTweets() {
     return this.prisma.tweets.findMany({
+      where: {
+        AND: [
+          {
+            comment: { is: null },
+          },
+          {
+            retweet: { is: null },
+          },
+        ],
+      },
       include,
       orderBy,
     });
@@ -56,10 +72,10 @@ export class TweetsService {
     });
   }
 
-  async getAllUserTweets(id: string) {
+  async getAllUserTweets(userId: string) {
     return this.prisma.tweets.findMany({
       where: {
-        userId: id,
+        userId,
       },
       include,
       orderBy,

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreateFollowDto } from './dto/follow.dto';
+import { CreateFollowDto, UnfollowDto } from './dto/follow.dto';
 
 @Injectable()
 export class FollowsService {
@@ -9,6 +9,17 @@ export class FollowsService {
   async follow(data: CreateFollowDto) {
     return this.prisma.follows.create({
       data,
+    });
+  }
+
+  async unfollow({ followedById, followingId }: UnfollowDto) {
+    return this.prisma.follows.delete({
+      where: {
+        followingId_followedById: {
+          followedById,
+          followingId,
+        },
+      },
     });
   }
 
