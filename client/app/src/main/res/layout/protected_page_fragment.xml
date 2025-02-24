@@ -30,6 +30,14 @@
             android:layout_height="0dp"
             android:layout_weight="0.08" />
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/protected_navigation_page"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/home_navigation" />
+
         <LinearLayout
             android:id="@+id/main_navbar"
             android:layout_width="match_parent"
@@ -77,4 +85,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/navigation_menu" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

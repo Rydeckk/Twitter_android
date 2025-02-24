@@ -6,6 +6,7 @@ import com.example.twitter_like.data.model.retweet.Retweet
 import com.example.twitter_like.network.dto.users_dto.UserDto
 
 data class TweetDto(
+    val id: String,
     val content: String,
     val users: UserDto,
     val userId: String,
