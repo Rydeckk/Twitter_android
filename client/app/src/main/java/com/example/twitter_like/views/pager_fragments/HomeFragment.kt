@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
 import com.example.twitter_like.pages.interfaces.HomePagerHandler
 import com.example.twitter_like.pages.interfaces.ProtectedPageHandler
+import com.example.twitter_like.ui.NewTweetModal
 import com.example.twitter_like.views.HomePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -50,6 +52,11 @@ class HomeFragment : Fragment(), HomePagerHandler {
             }
         }.attach()
 
+        val tweetButton = view.findViewById<ImageView>(R.id.tweet_button)
+        tweetButton.setOnClickListener {
+            val modal = NewTweetModal()
+            modal.show(parentFragmentManager, "NewTweetModal")
+        }
     }
 
     override fun displayAllTweet() {
