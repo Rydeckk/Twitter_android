@@ -7,4 +7,7 @@ data class TweetDto(
     val users : UserDto,
     val userId: String,
     val createdAt: String,
+    val commentCount: Int = 0,
+    val retweetCount:Int = 0,
+    val likeCount:Int = 0
 )
