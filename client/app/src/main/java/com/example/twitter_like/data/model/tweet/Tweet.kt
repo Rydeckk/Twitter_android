@@ -7,5 +7,8 @@ data class Tweet(
     val content: String,
     val createdAt: String,
     val users: UserDto,
-    val userId: String
+    val userId: String,
+    val commentCount: Int,
+    val retweetCount: Int,
+    val likeCount: Int
 )
