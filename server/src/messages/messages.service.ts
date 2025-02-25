@@ -24,6 +24,9 @@ export class MessagesService {
       orderBy: {
         createdAt: 'asc',
       },
+      include: {
+        users: true,
+      },
     });
   }
 }

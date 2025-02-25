@@ -1,15 +1,13 @@
 package com.example.twitter_like.data.request.conversation
 
-import java.util.UUID
-
-data class Create(
-    val username: Array<UUID>
+data class ConversationCreateRequest(
+    val username: Array<String>
 )
 
-data class Update(
-    val username: Array<UUID>
+data class ConversationUpdateRequest(
+    val username: Array<String>
 )
 
-data class Delete(
-    val conversationId: UUID
+data class ConversationDeleteRequest(
+    val conversationId: String
 )

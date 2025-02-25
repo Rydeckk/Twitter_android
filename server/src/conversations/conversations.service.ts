@@ -28,8 +28,8 @@ export class ConversationsService {
     });
   }
 
-  getUserConversations(currentUserId: string) {
-    return this.prisma.conversations.findMany({
+  async getUserConversations(currentUserId: string) {
+    const conversations = await this.prisma.conversations.findMany({
       where: {
         conversationsUsers: {
           some: {
@@ -38,8 +38,21 @@ export class ConversationsService {
         },
       },
       include: {
-        conversationsUsers: true,
+        conversationsUsers: {
+          include: {
+            users: true,
+          },
+        },
       },
+    });
+
+    return conversations.map((data) => {
+      return {
+        ...data,
+        conversationsUsers: data.conversationsUsers.filter(
+          ({ userId }) => userId !== currentUserId,
+        ),
+      };
     });
   }
 
