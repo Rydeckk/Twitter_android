@@ -1,6 +1,8 @@
 package com.example.twitter_like.utils
 
 import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun formatDate(inputDate: String): String {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -10,4 +12,9 @@ fun formatDate(inputDate: String): String {
 
     val date = inputFormat.parse(inputDate) ?: return inputDate
     return outputFormat.format(date)
+}
+
+fun formatDateToHour(date: Date): String {
+    val sdf = SimpleDateFormat("HH:mm", Locale.FRANCE)
+    return sdf.format(date)
 }
