@@ -56,4 +56,38 @@ class UserRepository(private val context: Context) {
         })
     }
 
+    fun followUser(userId: String, token: String, callback: GenericCallback<UserDto>) {
+        val call = userService.followUser("Bearer $token", userId)
+        call.enqueue(object : Callback<UserDto> {
+            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body()!!)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
+    fun unfollowUser(userId: String, token: String, callback: GenericCallback<UserDto>) {
+        val call = userService.unfollowUser("Bearer $token", userId)
+        call.enqueue(object : Callback<UserDto> {
+            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body()!!)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
 }

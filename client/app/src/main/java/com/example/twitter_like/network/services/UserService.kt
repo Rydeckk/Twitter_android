@@ -4,8 +4,10 @@ import com.example.twitter_like.data.request.user.UpdateUserRequest
 import com.example.twitter_like.network.dto.users_dto.UserDto
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -23,4 +25,16 @@ interface UserService {
         @Path("userId") userId: String,
         @Body request: UpdateUserRequest
     ): Call<UpdateUserRequest>
+
+    @POST("users/{userId}/follow")
+    fun followUser(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<UserDto>
+
+    @DELETE("users/{userId}/unfollow")
+    fun unfollowUser(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<UserDto>
 }
