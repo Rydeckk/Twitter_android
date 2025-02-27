@@ -9,7 +9,7 @@ import com.example.twitter_like.utils.formatDateToHour
 import com.example.twitter_like.views.view_holders.home_vh.MessageRvViewHolder
 
 class MessageRvAdapter (
-    private val messages: List<Message>
+    private var messages: List<Message>
 ) : RecyclerView.Adapter<MessageRvViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageRvViewHolder {
@@ -27,4 +27,8 @@ class MessageRvAdapter (
         holder.date_message.text = formatDateToHour(messageData.createdAt)
     }
 
+    fun updateMessages(newMessages: List<Message>) {
+        this.messages = newMessages
+        notifyDataSetChanged()
+    }
 }

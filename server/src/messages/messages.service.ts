@@ -13,6 +13,9 @@ export class MessagesService {
         conversationId: data.conversationId,
         userId: currentUserId,
       },
+      include: {
+        users: true
+      }
     });
   }
 

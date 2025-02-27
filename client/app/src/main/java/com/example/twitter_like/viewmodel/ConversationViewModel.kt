@@ -38,4 +38,8 @@ class ConversationViewModel(private val conversationRepository: ConversationRepo
     fun selectConversation(conversation: Conversation) {
         _selectedConversation.value = conversation
     }
+
+    fun clearSelectedConversation() {
+        _selectedConversation.value = null
+    }
 }

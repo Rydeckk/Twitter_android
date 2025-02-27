@@ -16,4 +16,8 @@
     <string name="d_j_un_compte_connectez_vous">Déjà un compte ? connectez-vous</string>
     <string name="nav_open">Ouvrir</string>
     <string name="nav_close">Fermer</string>
+    <string name="hint_message">Write your message...</string>
+    <string name="send_button_desc">Send</string>
+    <string name="return_arrow_desc">return arrow</string>
+    <string name="add_conversation">Add conversation</string>
 </resources>
