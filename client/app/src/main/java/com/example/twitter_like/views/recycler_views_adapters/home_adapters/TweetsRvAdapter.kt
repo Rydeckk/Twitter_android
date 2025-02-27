@@ -19,7 +19,8 @@ class TweetsRvAdapter(
     private val context: Context,
     private val tweets: List<Tweet>,
     private val onLikeClick: (String) -> Unit,
-    private val onUnlikeClick: (String, String) -> Unit
+    private val onUnlikeClick: (String, String) -> Unit,
+    private val onTweetClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
@@ -87,5 +88,6 @@ class TweetsRvAdapter(
                 "RetweetModal"
             )
         }
+        holder.tweetDetailNavigation.setOnClickListener { onTweetClick(tweetData.id) }
     }
 }

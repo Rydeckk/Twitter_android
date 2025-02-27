@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_tweets_navigation"
+    app:startDestination="@id/userPosts">
+
+    <fragment
+        android:id="@+id/userPosts"
+        android:name="com.example.twitter_like.views.pager_fragments.profilePage.PostsPageFragment"
+        android:label="Tweets"
+        tools:layout="@layout/tweet_rv">
+        <action
+            android:id="@+id/action_profileTweetFragment_to_tweetDetailFragment"
+            app:destination="@id/tweetDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tweetDetailFragment"
+        android:name="com.example.twitter_like.views.pager_fragments.detailPage.TweetDetailFragment"
+        android:label="Tweet Detail"
+        tools:layout="@layout/tweet_detail">
+        <argument
+            android:name="tweetId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_tweetDetailFragment_self"
+            app:destination="@id/tweetDetailFragment" />
+    </fragment>
+</navigation>
