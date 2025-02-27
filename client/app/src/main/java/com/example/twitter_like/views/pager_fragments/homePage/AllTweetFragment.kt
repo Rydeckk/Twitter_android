@@ -1,5 +1,6 @@
 package com.example.twitter_like.views.pager_fragments.homePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,6 +15,7 @@ import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.network.callback.GenericCallback
+import com.example.twitter_like.pages.TweetDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
@@ -24,12 +25,13 @@ import com.example.twitter_like.views.recycler_views_adapters.home_adapters.Twee
 class AllTweetFragment : Fragment() {
     private lateinit var tweetsRv: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var navController: NavController
 
     companion object {
         fun newInstance(): AllTweetFragment {
             return AllTweetFragment()
         }
+
+        const val TWEET_ID_EXTRA = "tweet_id"
     }
 
     private val tweetViewModel: TweetViewModel by viewModels {
@@ -47,7 +49,6 @@ class AllTweetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         fetchData(view)
         setUpSwipeToRefreshListeners(view)
 
@@ -62,10 +63,7 @@ class AllTweetFragment : Fragment() {
         }, onUnlikeClick = { tweetId, likeId ->
             unlikeTweet(tweetId, likeId)
         }, onTweetClick = { tweetId ->
-            val action =
-                AllTweetFragmentDirections.actionTweetFragmentToTweetDetailFragment(tweetId)
-            navController.navigate(action)
-
+            navigateToTweetDetail(tweetId)
         })
     }
 
@@ -80,6 +78,13 @@ class AllTweetFragment : Fragment() {
         tweetViewModel.unlikeTweet(unlikeRequest) {
             fetchData(requireView())
         }
+    }
+
+    private fun navigateToTweetDetail(tweetId: String) {
+        val intent = Intent(requireContext(), TweetDetailActivity::class.java).apply {
+            putExtra(TWEET_ID_EXTRA, tweetId)
+        }
+        startActivity(intent)
     }
 
     private fun fetchData(fragmentView: View) {

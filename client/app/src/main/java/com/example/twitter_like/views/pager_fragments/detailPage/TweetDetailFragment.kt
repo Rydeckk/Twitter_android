@@ -1,7 +1,6 @@
 package com.example.twitter_like.views.pager_fragments.detailPage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
@@ -23,8 +20,6 @@ import com.example.twitter_like.views.recycler_views_adapters.home_adapters.Twee
 
 class TweetDetailFragment : Fragment() {
     private lateinit var tweetsRv: RecyclerView
-    private lateinit var navController: NavController
-    private val args: TweetDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,10 +35,8 @@ class TweetDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
         fetchData(view)
         view.findViewById<Button>(R.id.tweet_detail_back).setOnClickListener {
-            navController.navigateUp()
         }
     }
 
@@ -52,8 +45,7 @@ class TweetDetailFragment : Fragment() {
         this.tweetsRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         this.tweetsRv.adapter = TweetDetailAdapter(tweets) { tweetId ->
-            val action = TweetDetailFragmentDirections.actionTweetDetailFragmentSelf(tweetId)
-            navController.navigate(action)
+
         }
     }
 
