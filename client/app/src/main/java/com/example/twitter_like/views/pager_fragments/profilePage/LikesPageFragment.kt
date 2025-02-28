@@ -52,7 +52,7 @@ class LikesPageFragment : Fragment() {
         this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
         this.tweetsRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        this.tweetsRv.adapter = TweetsRvAdapter(tweets)
+        this.tweetsRv.adapter = TweetsRvAdapter(tweets, tweetViewModel)
     }
 
 
