@@ -40,12 +40,19 @@ class UserRepository(private val context: Context) {
         })
     }
 
-    fun updateUserById(data: UpdateUserRequest, userId: String, callback: GenericCallback<Boolean>) {
+    fun updateUserById(
+        data: UpdateUserRequest,
+        userId: String,
+        callback: GenericCallback<Boolean>
+    ) {
         val token = getToken() ?: return
         val call = userService.updateUserById(token, userId, data)
 
         call.enqueue(object : Callback<UpdateUserRequest> {
-            override fun onResponse(call: Call<UpdateUserRequest>, response: Response<UpdateUserRequest>) {
+            override fun onResponse(
+                call: Call<UpdateUserRequest>,
+                response: Response<UpdateUserRequest>
+            ) {
                 callback.onSuccess(true)
             }
 

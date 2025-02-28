@@ -80,4 +80,37 @@ class FollowRepository(private val context: Context) {
 
     }
 
+
+    fun followUser(userId: String, callback: GenericCallback<Void>) {
+        val token = getToken() ?: return
+        val call = followService.followUser(token, userId)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (!response.isSuccessful) {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
+    fun unfollowUser(userId: String, callback: GenericCallback<Void>) {
+        val token = getToken() ?: return
+        val call = followService.unfollowUser(token, userId)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (!response.isSuccessful) {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
 }
