@@ -40,12 +40,19 @@ class UserRepository(private val context: Context) {
         })
     }
 
-    fun updateUserById(data: UpdateUserRequest, userId: String, callback: GenericCallback<Boolean>) {
+    fun updateUserById(
+        data: UpdateUserRequest,
+        userId: String,
+        callback: GenericCallback<Boolean>
+    ) {
         val token = getToken() ?: return
         val call = userService.updateUserById(token, userId, data)
 
         call.enqueue(object : Callback<UpdateUserRequest> {
-            override fun onResponse(call: Call<UpdateUserRequest>, response: Response<UpdateUserRequest>) {
+            override fun onResponse(
+                call: Call<UpdateUserRequest>,
+                response: Response<UpdateUserRequest>
+            ) {
                 callback.onSuccess(true)
             }
 
@@ -53,36 +60,6 @@ class UserRepository(private val context: Context) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
 
-        })
-    }
-
-    fun followUser(userId: String, callback: GenericCallback<Void>) {
-        val token = getToken() ?: return
-        val call = userService.followUser(token, userId)
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (!response.isSuccessful) {
-                    callback.onError("Erreur ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                callback.onError("Erreur réseau : ${t.message}")
-            }
-        })
-    }
-
-    fun unfollowUser(userId: String, token: String, callback: GenericCallback<Void>) {
-        val call = userService.unfollowUser("Bearer $token", userId)
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (!response.isSuccessful) {
-                    callback.onError("Erreur ${response.code()}")
-                }
-            }
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                callback.onError("Erreur réseau : ${t.message}")
-            }
         })
     }
 

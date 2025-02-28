@@ -26,15 +26,4 @@ interface UserService {
         @Body request: UpdateUserRequest
     ): Call<UpdateUserRequest>
 
-    @POST("users/{userId}/follow")
-    fun followUser(
-        @Header("Authorization") token: String,
-        @Path("userId") userId: String
-    ): Call<Void>
-
-    @DELETE("users/{userId}/unfollow")
-    fun unfollowUser(
-        @Header("Authorization") token: String,
-        @Path("userId") userId: String
-    ): Call<Void>
 }
