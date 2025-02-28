@@ -30,11 +30,11 @@ interface UserService {
     fun followUser(
         @Header("Authorization") token: String,
         @Path("userId") userId: String
-    ): Call<UserDto>
+    ): Call<Void>
 
     @DELETE("users/{userId}/unfollow")
     fun unfollowUser(
         @Header("Authorization") token: String,
         @Path("userId") userId: String
-    ): Call<UserDto>
+    ): Call<Void>
 }
