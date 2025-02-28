@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
@@ -52,7 +53,24 @@ class FollowingUsersTweets : Fragment() {
         this.tweetsRv = fragmentView.findViewById(R.id.tweet_rv)
         this.tweetsRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        this.tweetsRv.adapter = TweetsRvAdapter(tweets)
+        this.tweetsRv.adapter = TweetsRvAdapter(requireContext(), tweets, onLikeClick = { tweetId ->
+            likeTweet(tweetId)
+        }, onUnlikeClick = { tweetId, likeId ->
+            unlikeTweet(tweetId, likeId)
+        })
+    }
+
+    private fun likeTweet(tweetId: String) {
+        tweetViewModel.likeTweet(tweetId) {
+            fetchData(requireView())
+        }
+    }
+
+    private fun unlikeTweet(tweetId: String, likeId: String) {
+        val unlikeRequest = UnlikeRequest(tweetId, likeId)
+        tweetViewModel.unlikeTweet(unlikeRequest) {
+            fetchData(requireView())
+        }
     }
 
 

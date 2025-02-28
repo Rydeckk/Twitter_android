@@ -3,6 +3,8 @@ package com.example.twitter_like.repositories
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.data.request.like.LikeRequest
+import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.data.request.tweet.TweetRequest
 import com.example.twitter_like.data.request.tweet.TweetResponse
 import com.example.twitter_like.network.RetrofitClient
@@ -130,5 +132,46 @@ class TweetRepository(private val context: Context) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
         })
+    }
+
+    fun likeTweet(tweetId: String, callback: GenericCallback<Unit>) {
+        val token = getToken() ?: return
+        val request = LikeRequest(tweetId)
+        val call = tweetService.likeTweet(token, request)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+
+    }
+
+    fun unlikeTweet(data: UnlikeRequest, callback: GenericCallback<Unit>) {
+        val token = getToken() ?: return
+        val call = tweetService.unlikeTweet(token, data)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+
     }
 }
