@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Post, Request } from '@nestjs/common';
 import { LikesService } from './likes.service';
-import { CreateLikeDto } from './dto/like.dto';
+import { CreateLikeDto, DeleteTweetLikeDto } from './dto/like.dto';
 
 @Controller('likes')
 export class LikesController {
@@ -9,6 +9,14 @@ export class LikesController {
   @Post('')
   likeTweet(@Request() req: Request, @Body() body: CreateLikeDto) {
     return this.likesService.likeTweet({
+      ...body,
+      userId: req.user.sub,
+    });
+  }
+
+  @Delete('')
+  unlikeTweet(@Request() req: Request, @Body() body: DeleteTweetLikeDto) {
+    return this.likesService.unlikeTweet({
       ...body,
       userId: req.user.sub,
     });

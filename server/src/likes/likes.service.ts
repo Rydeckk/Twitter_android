@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
-import { CreateLikeDto } from './dto/like.dto';
+import { CreateLikeDto, DeleteTweetLikeDto } from './dto/like.dto';
 
 @Injectable()
 export class LikesService {
@@ -19,6 +19,17 @@ export class LikesService {
             id: userId,
           },
         },
+      },
+    });
+  }
+
+  async unlikeTweet({ likeId, userId, tweetId }: DeleteTweetLikeDto) {
+    console.log(likeId, userId, tweetId);
+    return this.prisma.likes.delete({
+      where: {
+        id: likeId,
+        userId,
+        tweetId,
       },
     });
   }

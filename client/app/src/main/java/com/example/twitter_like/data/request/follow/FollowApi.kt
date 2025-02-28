@@ -1,4 +1,4 @@
-package com.example.twitter_like.data.request
+package com.example.twitter_like.data.request.follow
 
 data class FollowRequest(
     val followedById: String,

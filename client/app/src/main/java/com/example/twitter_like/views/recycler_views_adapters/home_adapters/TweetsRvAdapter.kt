@@ -3,19 +3,24 @@ package com.example.twitter_like.views.recycler_views_adapters.home_adapters
 import android.content.Context
 import android.graphics.Color
 import android.view.ViewGroup
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.auth0.android.jwt.JWT
 import com.example.twitter_like.R
+import com.example.twitter_like.data.model.like.Like
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.utils.formatDate
-import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
 import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
-class TweetsRvAdapter(private val tweets: List<Tweet>,private val tweetViewModel: TweetViewModel) :
+class TweetsRvAdapter(
+    private val context: Context,
+    private val tweets: List<Tweet>,
+    private val onLikeClick: (String) -> Unit,
+    private val onUnlikeClick: (String, String) -> Unit
+) :
     RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.tweet, parent, false)
@@ -27,7 +32,17 @@ class TweetsRvAdapter(private val tweets: List<Tweet>,private val tweetViewModel
         return tweets.size
     }
 
+    private fun getToken(): String? {
+        val sharedPreferences =
+            context.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+        return token
+    }
+
     override fun onBindViewHolder(holder: TweetsRvViewHolder, position: Int) {
+        val token = getToken() ?: return
+        val jwt = JWT(token)
+        val userId = jwt.subject ?: return
         val tweetData = this.tweets[position]
         holder.fullname.text = tweetData.users.username
         holder.username.text = tweetData.users.username
@@ -37,40 +52,40 @@ class TweetsRvAdapter(private val tweets: List<Tweet>,private val tweetViewModel
         holder.retweetCount.text = tweetData.tweetRetweets.size.toString()
         holder.likeCount.text = tweetData.like.size.toString()
 
-        val sharedPreferences = holder.itemView.context.getSharedPreferences(
-            "MY_APP_SHARED_PREFS", Context.MODE_PRIVATE
-        )
-        val token = sharedPreferences.getString("token", null) ?: return
 
-        tweetViewModel.likedTweets.observeForever { likedTweets ->
-            Log.d("LikeDebug", "Liked tweets: $likedTweets")
-            if (likedTweets.contains(tweetData.id)) {
-                holder.likeIcon.setColorFilter(Color.RED)
-            } else {
-                holder.likeIcon.setColorFilter(Color.BLACK)
+        if (tweetData.like.any { it -> it.tweetId == tweetData.id && it.userId == userId }) {
+            holder.likeIcon.setColorFilter(Color.RED)
+            holder.likeIcon.setOnClickListener {
+                val foundLike =
+                    tweetData.like.find { like: Like -> like.tweetId == tweetData.id && like.userId == userId }
+                if (foundLike != null) {
+                    onUnlikeClick(
+                        tweetData.id,
+                        foundLike.id
+                    )
+                }
             }
-        }
-
-        holder.likeIcon.setOnClickListener {
-            val sharedPreferences = holder.itemView.context.getSharedPreferences(
-                "MY_APP_SHARED_PREFS", Context.MODE_PRIVATE
-            )
-            val token = sharedPreferences.getString("token", null) ?: return@setOnClickListener
-
-            if (tweetViewModel.likedTweets.value?.contains(tweetData.id) == true) {
-                return@setOnClickListener
+        } else {
+            holder.likeIcon.setColorFilter(Color.BLACK)
+            holder.likeIcon.setOnClickListener {
+                onLikeClick(tweetData.id)
             }
-            tweetViewModel.likeTweet(tweetData.id, token)
         }
 
         holder.commentIcon.setOnClickListener {
             val modal = NewTweetModal()
-            modal.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "NewTweetModal")
+            modal.show(
+                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
+                "NewTweetModal"
+            )
         }
 
         holder.retweetIcon.setOnClickListener {
             val modal = RetweetModal()
-            modal.show((holder.itemView.context as AppCompatActivity).supportFragmentManager, "RetweetModal")
+            modal.show(
+                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
+                "RetweetModal"
+            )
         }
     }
 }
