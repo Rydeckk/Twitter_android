@@ -22,13 +22,51 @@ class UserRepository(private val context: Context) {
         return sharedPreferences.getString("token", null)?.let { "Bearer $it" }
     }
 
+    fun getCurrentUser(callback: GenericCallback<User>) {
+        val token = getToken() ?: return
+        val call = userService.getCurrentUser(token)
+        call.enqueue(object : Callback<UserDto?> {
+            override fun onResponse(
+                call: Call<UserDto?>, response: Response<UserDto?>
+            ) {
+                val currentUser = response.body()
+                if (currentUser != null) {
+                    callback.onSuccess(userDtoToUserModel(currentUser))
+                }
+            }
+
+            override fun onFailure(call: Call<UserDto?>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
+    fun getAllUsers(callback: GenericCallback<List<User>>) {
+        val token = getToken() ?: return
+        val call = userService.getAllUsers(token)
+        call.enqueue(object : Callback<List<UserDto>> {
+            override fun onResponse(call: Call<List<UserDto>>, response: Response<List<UserDto>>) {
+                val bodyResponse = response.body()
+                if (bodyResponse?.isNotEmpty() == true) {
+                    callback.onSuccess(bodyResponse.map { userDtoToUserModel(it) })
+                } else {
+                    callback.onSuccess(emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<UserDto>>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+
+        })
+    }
+
     fun getUserById(userId: String, callback: GenericCallback<User>) {
         val token = getToken() ?: return
         val call = userService.getUserById(token, userId)
         call.enqueue(object : Callback<UserDto> {
             override fun onResponse(
-                call: Call<UserDto>,
-                response: Response<UserDto>
+                call: Call<UserDto>, response: Response<UserDto>
             ) {
                 val bodyResponse = response.body()!!
                 callback.onSuccess(userDtoToUserModel(bodyResponse))
@@ -41,17 +79,14 @@ class UserRepository(private val context: Context) {
     }
 
     fun updateUserById(
-        data: UpdateUserRequest,
-        userId: String,
-        callback: GenericCallback<Boolean>
+        data: UpdateUserRequest, userId: String, callback: GenericCallback<Boolean>
     ) {
         val token = getToken() ?: return
         val call = userService.updateUserById(token, userId, data)
 
         call.enqueue(object : Callback<UpdateUserRequest> {
             override fun onResponse(
-                call: Call<UpdateUserRequest>,
-                response: Response<UpdateUserRequest>
+                call: Call<UpdateUserRequest>, response: Response<UpdateUserRequest>
             ) {
                 callback.onSuccess(true)
             }
@@ -62,5 +97,4 @@ class UserRepository(private val context: Context) {
 
         })
     }
-
 }

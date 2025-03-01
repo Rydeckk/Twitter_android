@@ -162,7 +162,7 @@ model Messages {
   userId         String        @map("user_id")
   pictures       Pictures[]    @relation("messagePictures")
   voices         Voices[]      @relation("voicePictures")
-  conversation   Conversations @relation(fields: [conversationId], references: [id])
+  conversation   Conversations @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId String        @map("conversation_id")
 
   @@map("messages")

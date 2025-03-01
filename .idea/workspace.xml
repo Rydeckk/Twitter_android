@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2414bbf7-8049-4205-b670-49e4a3ba2936" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/model/conversation/Conversation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/model/conversation/Conversation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/model/message/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/model/message/Message.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/request/conversation/ConversationApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/data/request/conversation/ConversationApi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/models/ConversationModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/models/MessageModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/RetrofitClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/dto/conversation_dto/ConversationDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/dto/conversation_dto/ConversationDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/mapper/ConversationMapper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/mapper/ConversationMapper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/services/ConversationService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/network/services/ConversationService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/repositories/ConversationRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/repositories/ConversationRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/ConversationAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/MessageAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/MessageAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/ProtectedPagerAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/ProtectedPagerAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/pager_fragments/ConversationFragment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/java/com/example/twitter_like/views/pager_fragments/MessageFragment.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app/src/main/res/layout/conversation_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/app/src/main/res/layout/conversation_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/client/gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/conversations/conversations.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/conversations/conversations.service.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Rydeckk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Rydeckk/Twitter_android.git&quot;,
+    &quot;accountId&quot;: &quot;4c468cd5-9a6d-44f8-9918-31e2f5c38951&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2pOCnXVXHaOu3hP8Zo6v3vLf8t8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "feat/conversations-messages",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2414bbf7-8049-4205-b670-49e4a3ba2936" name="Changes" comment="" />
+      <created>1732627902078</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732627902078</updated>
+    </task>
+    <servers />
+  </component>
+</project>

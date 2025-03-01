@@ -13,6 +13,9 @@ export class MessagesService {
         conversationId: data.conversationId,
         userId: currentUserId,
       },
+      include: {
+        users: true
+      }
     });
   }
 
@@ -23,6 +26,9 @@ export class MessagesService {
       },
       orderBy: {
         createdAt: 'asc',
+      },
+      include: {
+        users: true,
       },
     });
   }

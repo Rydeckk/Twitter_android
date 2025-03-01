@@ -9,8 +9,24 @@ import { PrismaService } from 'src/prisma.service';
 export class ConversationsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  createConversation(currentUserId: string, data: CreateConversationDto) {
-    return this.prisma.conversations.create({
+  async createConversation(currentUserId: string, data: CreateConversationDto) {
+    const findExistingConv = await this.prisma.conversations.findFirst({
+      where: {
+        conversationsUsers: {
+          every: {
+            userId: {
+              in: [currentUserId, ...data.userIds].map((userId) => userId),
+            },
+          },
+        },
+      },
+    });
+
+    if (findExistingConv) {
+      return null;
+    }
+
+    const conversationCreated = await this.prisma.conversations.create({
       data: {
         createdByUser: {
           connect: {
@@ -25,7 +41,21 @@ export class ConversationsService {
           },
         },
       },
+      include: {
+        conversationsUsers: {
+          include: {
+            users: true,
+          },
+        },
+      },
     });
+
+    return {
+      ...conversationCreated,
+      conversationsUsers: conversationCreated.conversationsUsers.filter(
+        ({ userId }) => userId !== currentUserId,
+      ),
+    };
   }
 
   async getUserConversations(currentUserId: string) {
@@ -56,11 +86,10 @@ export class ConversationsService {
     });
   }
 
-  deleteUserConversation(currentUserId: string, data: DeleteConversationDto) {
-    return this.prisma.conversationsUsers.delete({
+  deleteUserConversation(data: DeleteConversationDto) {
+    return this.prisma.conversations.delete({
       where: {
         id: data.conversationUserId,
-        userId: currentUserId,
       },
     });
   }

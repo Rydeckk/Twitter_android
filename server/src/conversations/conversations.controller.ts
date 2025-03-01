@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Delete, Request, Get } from '@nestjs/common';
+import { Controller, Post, Body, Request, Get, Put } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import {
   CreateConversationDto,
@@ -22,11 +22,8 @@ export class ConversationsController {
     return this.conversationsService.getUserConversations(req.user.sub);
   }
 
-  @Delete('user')
-  deleteUserConversation(
-    @Request() req: Request,
-    @Body() body: DeleteConversationDto,
-  ) {
-    return this.conversationsService.deleteUserConversation(req.user.sub, body);
+  @Put('user')
+  deleteUserConversation(@Body() body: DeleteConversationDto) {
+    return this.conversationsService.deleteUserConversation(body);
   }
 }
