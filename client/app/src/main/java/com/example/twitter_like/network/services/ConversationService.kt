@@ -9,7 +9,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ConversationService {
-    @POST("conversation/user")
+    @POST("conversations/user")
     fun create_conversation(@Header("Authorization") token: String, @Body request: ConversationCreateRequest): Call<ConversationDto?>
 
     @GET("conversations/user")

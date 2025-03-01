@@ -13,13 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.message.Message
+import com.example.twitter_like.data.model.user.User
+import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.interfaces.MessagePagerHandler
 import com.example.twitter_like.repositories.ConversationRepository
 import com.example.twitter_like.repositories.MessageRepository
+import com.example.twitter_like.repositories.UserRepository
 import com.example.twitter_like.viewmodel.ConversationViewModel
 import com.example.twitter_like.viewmodel.MessageViewModel
+import com.example.twitter_like.viewmodel.UserViewModel
 import com.example.twitter_like.viewmodel.factories.ConversationViewModelFactory
 import com.example.twitter_like.viewmodel.factories.MessageViewModelFactory
+import com.example.twitter_like.viewmodel.factories.UserViewModelFactory
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.MessageRvAdapter
 
 class MessageFragment: Fragment(R.layout.message_fragment) {
@@ -31,6 +36,10 @@ class MessageFragment: Fragment(R.layout.message_fragment) {
 
     private val messageViewModel: MessageViewModel by activityViewModels {
         MessageViewModelFactory(MessageRepository(requireContext()), conversationViewModel)
+    }
+
+    private val userViewModel: UserViewModel by activityViewModels {
+        UserViewModelFactory(UserRepository(requireContext()))
     }
 
     companion object {
@@ -55,8 +64,16 @@ class MessageFragment: Fragment(R.layout.message_fragment) {
         }
 
         messageViewModel.messages.observe(viewLifecycleOwner) { messages ->
-            setUpMessageRv(messages, view)
-            messageRv.scrollToPosition(messages.size - 1)
+            userViewModel.getCurrentUser(object: GenericCallback<User> {
+                override fun onSuccess(data: User) {
+                    setUpMessageRv(messages, data, view)
+                    messageRv.scrollToPosition(messages.size - 1)
+                }
+
+                override fun onError(error: String) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
 
         backButton.setOnClickListener {
@@ -75,11 +92,11 @@ class MessageFragment: Fragment(R.layout.message_fragment) {
         }
     }
 
-    private fun setUpMessageRv(messages: List<Message>, fragmentView: View) {
+    private fun setUpMessageRv(messages: List<Message>, currentUser: User, fragmentView: View) {
         this.messageRv = fragmentView.findViewById(R.id.message_rv)
         this.messageRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val adapter = MessageRvAdapter(messages)
+        val adapter = MessageRvAdapter(messages, currentUser)
         this.messageRv.adapter = adapter
     }
 

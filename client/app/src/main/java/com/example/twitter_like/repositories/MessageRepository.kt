@@ -30,7 +30,6 @@ class MessageRepository(private val context: Context) {
         call.enqueue(object : Callback<MessageDto?> {
             override fun onResponse(call: Call<MessageDto?>, response: Response<MessageDto?>) {
                 val message = response.body()
-                Log.d("Response", "$response")
                 if (message != null) {
                     callback.onSuccess(messageDtoToMesageModel(message))
                 } else {

@@ -10,27 +10,33 @@ import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.ConversationRepository
 
 class ConversationViewModel(private val conversationRepository: ConversationRepository): ViewModel() {
+    private val _conversations = MutableLiveData<List<Conversation>>()
+    val conversations: LiveData<List<Conversation>> = _conversations
+
     private val _selectedConversation = MutableLiveData<Conversation?>()
     val selectedConversation: LiveData<Conversation?> = _selectedConversation
 
-    fun getConversation(callback: GenericCallback<List<Conversation>>) {
+    fun getConversation() {
         this.conversationRepository.getConversation( object : GenericCallback<List<Conversation>> {
             override fun onSuccess(data: List<Conversation>) {
-                callback.onSuccess(data)
+                _conversations.postValue(data)
             }
             override fun onError(error: String) {
-                callback.onError(error)
+                Log.e("ConversationViewModel", "Erreur : $error")
             }
         })
     }
 
-    fun createConversation(createConvData: ConversationCreateRequest,callback: GenericCallback<Conversation>) {
+    fun createConversation(createConvData: ConversationCreateRequest) {
         this.conversationRepository.createConversation( createConvData, object : GenericCallback<Conversation> {
             override fun onSuccess(data: Conversation) {
-                callback.onSuccess(data)
+                val updatedConversation = _conversations.value?.toMutableList() ?: mutableListOf()
+                updatedConversation.add(0, data)
+                _conversations.value = updatedConversation
+                selectConversation(data)
             }
             override fun onError(error: String) {
-                callback.onError(error)
+                Log.e("ConversationViewModel", "Erreur création conversation: $error")
             }
         })
     }

@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.twitter_like.R
 import com.example.twitter_like.pages.interfaces.MessagePagerHandler
@@ -48,7 +46,7 @@ class SectionMessageFragment: Fragment(), MessagePagerHandler {
 
         val viewPager = view.findViewById<ViewPager2>(R.id.section_message_view_pager)
         this.section_message_pager = viewPager
-        val adapter = MessagePagerAdapter(this, this, this._protectedPager)
+        val adapter = MessagePagerAdapter(this)
         viewPager.adapter = adapter
 
         displayConversation()
@@ -61,11 +59,19 @@ class SectionMessageFragment: Fragment(), MessagePagerHandler {
     }
 
     override fun displayConversation() {
-        this.section_message_pager.currentItem = 0
+        this.section_message_pager.setCurrentItem(0,false)
     }
 
     override fun displayMessage() {
-        this.section_message_pager.currentItem = 1
+        this.section_message_pager.setCurrentItem(1,false)
+    }
+
+    override fun displaySearchUser() {
+        this.section_message_pager.setCurrentItem(2,false)
+    }
+
+    override fun displaySearchGroup() {
+        this.section_message_pager.setCurrentItem(3, false)
     }
 
 }

@@ -1,16 +1,16 @@
 package com.example.twitter_like.views.pager_fragments.messagePage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.conversation.Conversation
 import com.example.twitter_like.network.callback.GenericCallback
+import com.example.twitter_like.pages.interfaces.MessagePagerHandler
 import com.example.twitter_like.repositories.ConversationRepository
 import com.example.twitter_like.viewmodel.ConversationViewModel
 import com.example.twitter_like.viewmodel.factories.ConversationViewModelFactory
@@ -32,7 +32,18 @@ class ConversationFragment: Fragment(R.layout.conversation_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fetchData(view)
+
+        val addConversation = view.findViewById<ImageButton>(R.id.add_conversation)
+
+        addConversation.setOnClickListener {
+            (parentFragment as? MessagePagerHandler)?.displaySearchUser()
+        }
+
+        conversationViewModel.conversations.observe(viewLifecycleOwner) { conversations ->
+            setUpConversationRv(conversations, view)
+        }
+
+        conversationViewModel.getConversation()
     }
 
     private fun setUpConversationRv(conversations: List<Conversation>, fragmentView: View) {
@@ -44,17 +55,5 @@ class ConversationFragment: Fragment(R.layout.conversation_fragment) {
         }
 
         this.conversationRv.adapter = adapter
-    }
-
-
-    private fun fetchData(fragmentView: View) {
-        conversationViewModel.getConversation(object : GenericCallback<List<Conversation>> {
-            override fun onSuccess(data: List<Conversation>) {
-                setUpConversationRv(data, fragmentView)
-            }
-            override fun onError(error: String) {
-                TODO("Not yet implemented")
-            }
-        })
     }
 }

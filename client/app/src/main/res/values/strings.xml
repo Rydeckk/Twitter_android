@@ -20,4 +20,11 @@
     <string name="send_button_desc">Send</string>
     <string name="return_arrow_desc">return arrow</string>
     <string name="add_conversation">Add conversation</string>
+    <string name="user_picture">User picture</string>
+    <string name="hint_search_user">Find an user</string>
+    <string name="image_search">Image search</string>
+    <string name="user_check">User check</string>
+    <string name="create_group">Create group</string>
+    <string name="create_group_image">Create group image</string>
+    <string name="message_title">Messages</string>
 </resources>

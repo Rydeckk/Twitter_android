@@ -9,8 +9,8 @@ import { PrismaService } from 'src/prisma.service';
 export class ConversationsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  createConversation(currentUserId: string, data: CreateConversationDto) {
-    return this.prisma.conversations.create({
+  async createConversation(currentUserId: string, data: CreateConversationDto) {
+    const conversationCreated = await this.prisma.conversations.create({
       data: {
         createdByUser: {
           connect: {
@@ -25,7 +25,21 @@ export class ConversationsService {
           },
         },
       },
+      include: {
+        conversationsUsers: {
+          include: {
+            users: true,
+          },
+        },
+      },
     });
+
+    return {
+      ...conversationCreated,
+      conversationsUsers: conversationCreated.conversationsUsers.filter(
+        ({ userId }) => userId !== currentUserId,
+      ),
+    };
   }
 
   async getUserConversations(currentUserId: string) {

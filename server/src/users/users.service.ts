@@ -39,13 +39,29 @@ export class UsersService {
     });
   }
 
+  async findAllUsers(userId: string) {
+    return this.prisma.users.findMany({
+      where: {
+        NOT: { id: userId },
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        biography: true,
+        dateOfBirth: true,
+        createdAt: true,
+      },
+    });
+  }
+
   async createUser(data: AuthRegisterDto) {
     return this.prisma.users.create({
       data,
     });
   }
 
-  async updateCurrentUser(currentUserId: string, data: UpdateUserDto) {
+  async updateUserById(currentUserId: string, data: UpdateUserDto) {
     return this.prisma.users.update({
       where: {
         id: currentUserId,

@@ -1,7 +1,7 @@
 package com.example.twitter_like.data.request.conversation
 
 data class ConversationCreateRequest(
-    val username: Array<String>
+    val userIds: Array<String>
 )
 
 data class ConversationUpdateRequest(

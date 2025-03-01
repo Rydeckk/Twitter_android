@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/button_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/return_arrow_desc"
+        android:src="@drawable/arrow_back"
+        android:background="@color/noBackground"
+        android:layout_margin="10dp">
+    </ImageButton>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/image_search"
+            android:src="@drawable/search_black"
+            android:background="@color/noBackground"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/search_user_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="textFilter"
+            android:hint="@string/hint_search_user"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
+
+        <ImageButton
+            android:id="@+id/add_conversation"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|end"
+            android:contentDescription="@string/add_conversation"
+            android:src="@drawable/add"
+            android:background="@drawable/background_add"
+            android:padding="8dp"
+            android:layout_margin="15dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

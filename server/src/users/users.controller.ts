@@ -17,10 +17,12 @@ export class UsersController {
   }
 
   @Put(':userId')
-  async updateCurrentUser(
-    @Param('userId') userId: string,
-    @Body() body: UpdateUserDto,
-  ) {
-    return this.usersService.updateCurrentUser(userId, body);
+  updateUserById(@Param('userId') userId: string, @Body() body: UpdateUserDto) {
+    return this.usersService.updateUserById(userId, body);
+  }
+
+  @Get('all')
+  getAllUsers(@Request() req: Request) {
+    return this.usersService.findAllUsers(req.user.sub);
   }
 }
