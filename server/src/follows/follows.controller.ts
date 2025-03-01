@@ -22,7 +22,7 @@ export class FollowsController {
     });
   }
 
-  @Delete('')
+  @Delete()
   unfollow(@Request() req: Request, @Body() body: UnfollowDto) {
     return this.followsService.unfollow({
       ...body,

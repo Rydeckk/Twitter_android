@@ -24,7 +24,7 @@ export class FollowsService {
   }
 
   async getUserFollowers(id: string) {
-    return this.prisma.follows.findMany({
+    const followers = await this.prisma.follows.findMany({
       where: {
         followingId: id,
       },
@@ -32,6 +32,15 @@ export class FollowsService {
         followedBy: true,
       },
     });
+
+    const followings = await this.getUserFollowings(id);
+
+    return followers.map((data) => ({
+      ...data,
+      isUserAlsoFollowing: !!followings.find(
+        (test) => test.followingId === data.followedById,
+      ),
+    }));
   }
 
   async getUserFollowings(id: string) {

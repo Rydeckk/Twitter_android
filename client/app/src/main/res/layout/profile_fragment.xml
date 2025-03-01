@@ -60,19 +60,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/open_followers_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="0 abonnements" />
-
-            <TextView
                 android:id="@+id/open_followings_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="0 abonnés" />
 
+            <TextView
+                android:id="@+id/open_followers_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="0 abonnements" />
         </LinearLayout>
 
 
