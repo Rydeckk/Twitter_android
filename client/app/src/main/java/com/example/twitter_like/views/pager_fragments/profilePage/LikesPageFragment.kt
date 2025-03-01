@@ -18,7 +18,6 @@ import com.example.twitter_like.pages.TweetDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
-import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetDetailAdapter
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
 
 class LikesPageFragment : Fragment() {

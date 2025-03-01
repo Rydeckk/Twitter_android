@@ -7,7 +7,7 @@ fun tweetDtoToTweetModel(dto: TweetDto): Tweet {
     return Tweet(
         id = dto.id,
         content = dto.content,
-        users = dto.users,
+        users = userDtoToUserModel(dto.users),
         userId = dto.userId,
         createdAt = dto.createdAt,
         tweetComments = dto.tweetComments,

@@ -3,6 +3,7 @@ package com.example.twitter_like.repositories
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.twitter_like.data.model.tweet.Tweet
+import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.LikeRequest
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.data.request.tweet.TweetRequest
@@ -113,6 +114,25 @@ class TweetRepository(private val context: Context) {
         })
     }
 
+    fun getTweetById(tweetId: String, callback: GenericCallback<Tweet>) {
+        val token = getToken() ?: return
+        val call = tweetService.getTweetById(token, tweetId)
+
+        call.enqueue(object : Callback<TweetDto> {
+            override fun onResponse(call: Call<TweetDto>, response: Response<TweetDto>) {
+                val bodyResponse = response.body()
+
+                if (bodyResponse != null) {
+                    callback.onSuccess(tweetDtoToTweetModel(bodyResponse))
+                }
+            }
+
+            override fun onFailure(call: Call<TweetDto>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
     fun sendTweet(content: String, callback: GenericCallback<TweetResponse>) {
         val token = getToken() ?: return
 
@@ -152,7 +172,24 @@ class TweetRepository(private val context: Context) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
         })
+    }
 
+    fun commentTweet(data: CommentRequest, callback: GenericCallback<Unit>) {
+        val token = getToken() ?: return
+        val call = tweetService.commentTweet(token, data)
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
     }
 
     fun unlikeTweet(data: UnlikeRequest, callback: GenericCallback<Unit>) {
