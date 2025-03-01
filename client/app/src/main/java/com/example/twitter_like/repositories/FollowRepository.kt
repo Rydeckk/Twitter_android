@@ -3,6 +3,8 @@ package com.example.twitter_like.repositories
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.twitter_like.data.model.follow.Follows
+import com.example.twitter_like.data.request.follow.FollowRequest
+import com.example.twitter_like.data.request.follow.UnfollowRequest
 import com.example.twitter_like.network.RetrofitClient
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.network.dto.follow_dto.FollowedByDto
@@ -81,12 +83,14 @@ class FollowRepository(private val context: Context) {
     }
 
 
-    fun followUser(userId: String, callback: GenericCallback<Void>) {
+    fun followUser(data: FollowRequest, callback: GenericCallback<Unit>) {
         val token = getToken() ?: return
-        val call = followService.followUser(token, userId)
+        val call = followService.followUser(token, data)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (!response.isSuccessful) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
                     callback.onError("Erreur ${response.code()}")
                 }
             }
@@ -97,12 +101,14 @@ class FollowRepository(private val context: Context) {
         })
     }
 
-    fun unfollowUser(userId: String, callback: GenericCallback<Void>) {
+    fun unfollowUser(data: UnfollowRequest, callback: GenericCallback<Unit>) {
         val token = getToken() ?: return
-        val call = followService.unfollowUser(token, userId)
+        val call = followService.unfollowUser(token, data)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (!response.isSuccessful) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
                     callback.onError("Erreur ${response.code()}")
                 }
             }

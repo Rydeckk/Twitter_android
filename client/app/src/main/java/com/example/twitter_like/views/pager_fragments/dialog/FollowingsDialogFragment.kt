@@ -11,13 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.auth0.android.jwt.JWT
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.follow.Follows
+import com.example.twitter_like.data.request.follow.FollowRequest
+import com.example.twitter_like.data.request.follow.UnfollowRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.FollowRepository
 import com.example.twitter_like.viewmodel.FollowViewModel
 import com.example.twitter_like.viewmodel.factories.FollowViewModelFactory
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.FollowsRvAdapter
 
-class FollowsDialogFragment(private var isFollowers: Boolean) : DialogFragment() {
+class FollowingsDialogFragment(private val callback: () -> Unit) : DialogFragment() {
 
     private lateinit var followersRv: RecyclerView
 
@@ -28,16 +30,8 @@ class FollowsDialogFragment(private var isFollowers: Boolean) : DialogFragment()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_followers)
-        dialog.findViewById<TextView>(R.id.follow_dialog_title).text =
-            if (isFollowers) "Abonnées" else "Abonnements"
-
-
-        if (isFollowers) {
-            fetchFollowers(dialog)
-        } else {
-            fetchFollowings(dialog)
-        }
-
+        dialog.findViewById<TextView>(R.id.follow_dialog_title).text = "Abonnements"
+        fetchFollowings(dialog)
         return dialog
     }
 
@@ -52,23 +46,12 @@ class FollowsDialogFragment(private var isFollowers: Boolean) : DialogFragment()
         followersRv = dialog.findViewById(R.id.user_rv)
         this.followersRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        followersRv.adapter = FollowsRvAdapter(followings)
-    }
-
-    private fun fetchFollowers(dialog: Dialog) {
-        val token = getToken() ?: return
-        val jwt = JWT(token)
-        val userId = jwt.subject ?: return
-
-        followViewModel.getUserFollowers(userId, object : GenericCallback<List<Follows>> {
-            override fun onSuccess(data: List<Follows>) {
-                setUpFollowersRv(data, dialog)
-            }
-
-            override fun onError(error: String) {
-                TODO("Not yet implemented")
-            }
-        })
+        followersRv.adapter =
+            FollowsRvAdapter(requireContext(), true, followings, onFollowClick = { followingId ->
+                followUser(followingId, dialog)
+            }, onUnfollowClick = { followingId ->
+                unfollowUser(followingId, dialog)
+            })
     }
 
     private fun fetchFollowings(dialog: Dialog) {
@@ -87,4 +70,17 @@ class FollowsDialogFragment(private var isFollowers: Boolean) : DialogFragment()
         })
     }
 
+    private fun followUser(followingId: String, dialog: Dialog) {
+        followViewModel.followUser(FollowRequest(followingId)) {
+            fetchFollowings(dialog)
+            callback()
+        }
+    }
+
+    private fun unfollowUser(followingId: String, dialog: Dialog) {
+        followViewModel.unfollowUser(UnfollowRequest(followingId)) {
+            fetchFollowings(dialog)
+            callback()
+        }
+    }
 }

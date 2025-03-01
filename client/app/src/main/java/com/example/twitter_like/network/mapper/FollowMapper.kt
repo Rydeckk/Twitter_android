@@ -16,6 +16,7 @@ fun followedByDtoToFollowMapper(dto: FollowedByDto): Follows {
     return Follows(
         followingId = dto.followingId,
         followedById = dto.followedById,
-        user = userDtoToUserModel(dto.user)
+        user = userDtoToUserModel(dto.user),
+        isUserAlsoFollowing = dto.isUserAlsoFollowing
     )
 }

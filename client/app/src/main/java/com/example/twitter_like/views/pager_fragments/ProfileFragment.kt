@@ -19,7 +19,8 @@ import com.example.twitter_like.repositories.UserRepository
 import com.example.twitter_like.viewmodel.UserViewModel
 import com.example.twitter_like.viewmodel.factories.UserViewModelFactory
 import com.example.twitter_like.views.ProfilePagerAdapter
-import com.example.twitter_like.views.pager_fragments.dialog.FollowsDialogFragment
+import com.example.twitter_like.views.pager_fragments.dialog.FollowersDialogFragment
+import com.example.twitter_like.views.pager_fragments.dialog.FollowingsDialogFragment
 import com.example.twitter_like.views.pager_fragments.dialog.UpdateUserDialogFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -58,11 +59,11 @@ class ProfileFragment : Fragment(), ProfilePagerHandler {
         openFollowingsDialog = view.findViewById(R.id.open_followings_dialog)
 
         openFollowersDialog.setOnClickListener {
-            showFollowersDialog(false)
+            showFollowersDialog(false, view)
         }
 
         openFollowingsDialog.setOnClickListener {
-            showFollowersDialog(true)
+            showFollowersDialog(true, view)
         }
 
         view.findViewById<Button>(R.id.profile_update_dialog).setOnClickListener {
@@ -117,8 +118,13 @@ class ProfileFragment : Fragment(), ProfilePagerHandler {
         })
     }
 
-    private fun showFollowersDialog(isFollowers: Boolean) {
-        val dialogFragment = FollowsDialogFragment(isFollowers)
+    private fun showFollowersDialog(isFollowers: Boolean, view: View) {
+        val dialogFragment =
+            if (isFollowers) FollowersDialogFragment() {
+                fetchUser(view)
+            } else FollowingsDialogFragment() {
+                fetchUser(view)
+            }
         dialogFragment.show(parentFragmentManager, "FollowsDialog")
     }
 

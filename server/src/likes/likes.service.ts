@@ -24,7 +24,6 @@ export class LikesService {
   }
 
   async unlikeTweet({ likeId, userId, tweetId }: DeleteTweetLikeDto) {
-    console.log(likeId, userId, tweetId);
     return this.prisma.likes.delete({
       where: {
         id: likeId,
