@@ -84,7 +84,7 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     fun addDeleteSelectedUser(user: User) {
         val currentList = _selectedUsers.value ?: emptyList()
-        if (_selectedUsers.value?.contains(user) == true) {
+        if (currentList.contains(user)) {
             _selectedUsers.postValue(currentList.filter { !it.id.contains(user.id) })
         } else {
             _selectedUsers.postValue(currentList + user)
