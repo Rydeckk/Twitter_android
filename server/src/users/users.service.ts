@@ -44,14 +44,6 @@ export class UsersService {
       where: {
         NOT: { id: userId },
       },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        biography: true,
-        dateOfBirth: true,
-        createdAt: true,
-      },
     });
   }
 

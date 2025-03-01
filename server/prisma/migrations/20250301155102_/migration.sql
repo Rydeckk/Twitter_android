@@ -2,7 +2,7 @@
 CREATE TYPE "RETWEET_TYPE" AS ENUM ('REPLY', 'REPOST');
 
 -- CreateEnum
-CREATE TYPE "NOTIFICATION_TYPE" AS ENUM ('FOLLOW', 'LIKE', 'RETWEET', 'COMMENT', 'MESSAGE');
+CREATE TYPE "NOTIFICATION_TYPE" AS ENUM ('FOLLOW', 'LIKE', 'TWEET', 'RETWEET', 'COMMENT', 'MESSAGE');
 
 -- CreateEnum
 CREATE TYPE "PICTURE_ENTITY" AS ENUM ('USER', 'TWEET', 'MESSAGE');
@@ -16,6 +16,8 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "firstname" TEXT DEFAULT 'Firstname',
+    "lastname" TEXT DEFAULT 'Lastname',
     "biography" TEXT,
     "date_of_birth" TIMESTAMP(3),
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -140,7 +142,7 @@ CREATE TABLE "voices" (
     "id" TEXT NOT NULL,
     "path" TEXT NOT NULL,
     "entity_id" TEXT NOT NULL,
-    "entity_type" "PICTURE_ENTITY" NOT NULL,
+    "entity_type" "VOICE_ENTITY" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -208,7 +210,7 @@ ALTER TABLE "conversations_users" ADD CONSTRAINT "conversations_users_conversati
 ALTER TABLE "messages" ADD CONSTRAINT "messages_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "messages" ADD CONSTRAINT "messages_conversation_id_fkey" FOREIGN KEY ("conversation_id") REFERENCES "conversations"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "messages" ADD CONSTRAINT "messages_conversation_id_fkey" FOREIGN KEY ("conversation_id") REFERENCES "conversations"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "pictures" ADD CONSTRAINT "user_picture" FOREIGN KEY ("entity_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

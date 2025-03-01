@@ -11,6 +11,11 @@ export class UsersController {
     return this.usersService.findUserById(req.user.sub);
   }
 
+  @Get('all')
+  getAllUsers(@Request() req: Request) {
+    return this.usersService.findAllUsers(req.user.sub);
+  }
+
   @Get(':userId')
   getUserById(@Param('userId') userId: string) {
     return this.usersService.findUserById(userId);
@@ -19,10 +24,5 @@ export class UsersController {
   @Put(':userId')
   updateUserById(@Param('userId') userId: string, @Body() body: UpdateUserDto) {
     return this.usersService.updateUserById(userId, body);
-  }
-
-  @Get('all')
-  getAllUsers(@Request() req: Request) {
-    return this.usersService.findAllUsers(req.user.sub);
   }
 }
