@@ -66,6 +66,7 @@ class SearchGroupFragment: Fragment(R.layout.search_group_fragment) {
             val selectedUsers = userViewModel.selectedUsers.value ?: emptyList()
             val userIds = selectedUsers.map { it.id }
             conversationViewModel.createConversation(ConversationCreateRequest(userIds.toTypedArray()))
+            userViewModel.clearSelectedUser()
         }
 
         searchInput.addTextChangedListener(object : TextWatcher {

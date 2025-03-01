@@ -90,4 +90,8 @@ class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
             _selectedUsers.postValue(currentList + user)
         }
     }
+
+    fun clearSelectedUser() {
+        _selectedUsers.postValue(emptyList())
+    }
 }

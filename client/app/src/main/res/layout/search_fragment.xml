@@ -45,7 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
             android:contentDescription="@string/create_group_image"
             android:src="@drawable/group_add"
             android:background="@color/noBackground"
-            android:layout_margin="10dp" />
+            android:padding="10dp" />
 
         <TextView
             android:layout_width="match_parent"
