@@ -9,6 +9,7 @@ import com.example.twitter_like.views.pager_fragments.ProtectedPageFragment
 import com.example.twitter_like.views.pager_fragments.HomeFragment
 import com.example.twitter_like.views.pager_fragments.ProfileFragment
 import com.example.twitter_like.views.pager_fragments.SectionMessageFragment
+import com.example.twitter_like.views.pager_fragments.searchPage.SearchGlobalFragment
 
 class ProtectedPagerAdapter(
     activity: ProtectedPageFragment,
@@ -25,11 +26,10 @@ class ProtectedPagerAdapter(
         val homeFragment = HomeFragment.newInstance(protectedPager, mainPager)
         val profileFragment = ProfileFragment.newInstance()
         val sectionMessageFragment = SectionMessageFragment.newInstance(protectedPager, mainPager)
+        val searchFragment = SearchGlobalFragment.newInstance()
         return when (position) {
             0 -> homeFragment
-            1 -> //TODO SearchFragment
-                Fragment()
-
+            1 -> searchFragment
             2 -> //TODO NotificationFragment
                 Fragment()
 
