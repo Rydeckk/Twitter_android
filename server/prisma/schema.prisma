@@ -113,6 +113,7 @@ model Follows {
 enum NOTIFICATION_TYPE {
   FOLLOW
   LIKE
+  TWEET
   RETWEET
   COMMENT
   MESSAGE
@@ -192,13 +193,13 @@ enum VOICE_ENTITY {
 }
 
 model Voices {
-  id         String         @id @default(uuid())
+  id         String       @id @default(uuid())
   path       String
-  entityId   String         @map("entity_id")
-  entityType PICTURE_ENTITY @map("entity_type")
-  createdAt  DateTime       @default(now()) @map("created_at")
-  updatedAt  DateTime       @updatedAt @map("updated_at")
-  message    Messages?      @relation("voicePictures", fields: [entityId], references: [id], map: "message_voice", onDelete: Cascade)
+  entityId   String       @map("entity_id")
+  entityType VOICE_ENTITY @map("entity_type")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  message    Messages?    @relation("voicePictures", fields: [entityId], references: [id], map: "message_voice", onDelete: Cascade)
 
   @@map("voices")
 }

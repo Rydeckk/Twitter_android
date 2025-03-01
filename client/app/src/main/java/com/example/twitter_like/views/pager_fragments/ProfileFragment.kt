@@ -1,6 +1,5 @@
 package com.example.twitter_like.views.pager_fragments
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,5 +1,6 @@
 package com.example.twitter_like.views.pager_fragments.profilePage
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.example.twitter_like.R
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.network.callback.GenericCallback
+import com.example.twitter_like.pages.TweetDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
@@ -24,9 +26,10 @@ class PostsPageFragment : Fragment() {
 
     companion object {
         fun newInstance(): PostsPageFragment {
-            return PostsPageFragment().also {
-            }
+            return PostsPageFragment()
         }
+
+        const val TWEET_ID_EXTRA = "tweet_id"
     }
 
     private val tweetViewModel: TweetViewModel by viewModels {
@@ -57,6 +60,8 @@ class PostsPageFragment : Fragment() {
             likeTweet(tweetId)
         }, onUnlikeClick = { tweetId, likeId ->
             unlikeTweet(tweetId, likeId)
+        }, onTweetClick = { tweetId ->
+            navigateToTweetDetail(tweetId)
         })
     }
 
@@ -73,7 +78,13 @@ class PostsPageFragment : Fragment() {
         }
     }
 
-
+    private fun navigateToTweetDetail(tweetId: String) {
+        val intent = Intent(requireContext(), TweetDetailActivity::class.java).apply {
+            putExtra(TWEET_ID_EXTRA, tweetId)
+        }
+        startActivity(intent)
+    }
+    
     private fun fetchData(fragmentView: View) {
         tweetViewModel.getUserTweets(object : GenericCallback<List<Tweet>> {
             override fun onSuccess(data: List<Tweet>) {

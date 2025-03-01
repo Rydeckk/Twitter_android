@@ -57,6 +57,7 @@ class HomeFragment : Fragment(), HomePagerHandler {
             val modal = NewTweetModal()
             modal.show(parentFragmentManager, "NewTweetModal")
         }
+
     }
 
     override fun displayAllTweet() {

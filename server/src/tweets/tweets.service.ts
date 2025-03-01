@@ -101,6 +101,21 @@ export class TweetsService {
       where: {
         id,
       },
+      include: {
+        ...include,
+        tweetComments: {
+          include: {
+            users: true,
+            tweet: {
+              include: {
+                like: true,
+                tweetComments: true,
+                tweetRetweets: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 

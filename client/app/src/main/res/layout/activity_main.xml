@@ -4,12 +4,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pages.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".pages.MainActivity">
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.08">
-    </androidx.viewpager2.widget.ViewPager2>
+        android:layout_weight="0.08" />
+
 </LinearLayout>

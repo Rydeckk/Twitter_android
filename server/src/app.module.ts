@@ -12,6 +12,7 @@ import { FollowsModule } from './follows/follows.module';
 import { RetweetsModule } from './retweets/retweets.module';
 import { LikesModule } from './likes/likes.module';
 import { CommentsModule } from './comments/comments.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CommentsModule } from './comments/comments.module';
     RetweetsModule,
     LikesModule,
     CommentsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [

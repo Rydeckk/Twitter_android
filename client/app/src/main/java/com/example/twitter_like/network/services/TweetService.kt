@@ -1,5 +1,6 @@
 package com.example.twitter_like.network.services
 
+import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.LikeRequest
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.data.request.tweet.TweetRequest
@@ -11,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface TweetService {
 
@@ -26,6 +28,12 @@ interface TweetService {
     @GET("tweets/like")
     fun getLikesTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
 
+    @GET("tweets/{userId}")
+    fun getTweetById(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<TweetDto>
+
     @POST("tweets")
     fun sendTweet(
         @Header("Authorization") token: String,
@@ -35,6 +43,12 @@ interface TweetService {
     @POST("likes")
     fun likeTweet(@Header("Authorization") token: String, @Body request: LikeRequest): Call<Void>
 
+    @POST("comments")
+    fun commentTweet(@Header("Authorization") token: String, @Body request: CommentRequest): Call<Void>
+
     @HTTP(method = "DELETE", path = "likes", hasBody = true)
-    fun unlikeTweet(@Header("Authorization") token: String, @Body request: UnlikeRequest): Call<Void>
+    fun unlikeTweet(
+        @Header("Authorization") token: String,
+        @Body request: UnlikeRequest
+    ): Call<Void>
 }
