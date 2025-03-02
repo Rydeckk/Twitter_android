@@ -127,9 +127,8 @@ export class TweetsService {
   async getRetweetsTweets(userId: string) {
     return this.prisma.tweets.findMany({
       where: {
-        retweet: {
-          userId,
-        },
+        retweet: { isNot: null },
+        userId,
       },
       include,
       orderBy,
