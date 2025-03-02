@@ -17,8 +17,8 @@ export class UsersController {
   }
 
   @Get(':userId')
-  getUserById(@Param('userId') userId: string) {
-    return this.usersService.findUserById(userId);
+  getUserById(@Request() req: Request, @Param('userId') userId: string) {
+    return this.usersService.findUserByIdForDetail(req.user.sub, userId);
   }
 
   @Put(':userId')

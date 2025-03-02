@@ -11,6 +11,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/profile_fragment_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="Retour" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/profile_material_card_view"
             android:layout_width="65dp"
@@ -53,6 +60,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Modifier" />
+
+        <TextView
+            android:id="@+id/profile_biography"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="Biography"
+            android:textSize="15sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

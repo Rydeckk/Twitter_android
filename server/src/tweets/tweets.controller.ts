@@ -39,14 +39,14 @@ export class TweetsController {
     return this.tweetsService.getAllFollowTweets(req.user.sub);
   }
 
-  @Get('user')
-  findAllUserTweets(@Request() req: Request) {
-    return this.tweetsService.getAllUserTweets(req.user.sub);
+  @Get('user/:userId')
+  findAllUserTweets(@Param('userId', ParseUUIDPipe) userId: string) {
+    return this.tweetsService.getAllUserTweets(userId);
   }
 
-  @Get('like')
-  findLikesTweets(@Request() req: Request) {
-    return this.tweetsService.getLikesTweets(req.user.sub);
+  @Get('like/:userId')
+  findLikesTweets(@Param('userId', ParseUUIDPipe) userId: string) {
+    return this.tweetsService.getLikesTweets(userId);
   }
 
   @Get(':id')

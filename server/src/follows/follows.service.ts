@@ -23,7 +23,7 @@ export class FollowsService {
     });
   }
 
-  async getUserFollowers(id: string) {
+  async getUserFollowers(currentUserId: string, id: string) {
     const followers = await this.prisma.follows.findMany({
       where: {
         followingId: id,
@@ -33,18 +33,26 @@ export class FollowsService {
       },
     });
 
-    const followings = await this.getUserFollowings(id);
+    const followings = await this.prisma.follows.findMany({
+      where: {
+        followedById: currentUserId,
+      },
+      include: {
+        following: true,
+      },
+    });
 
     return followers.map((data) => ({
       ...data,
       isUserAlsoFollowing: !!followings.find(
-        (test) => test.followingId === data.followedById,
+        ({ followingId, followedById }) =>
+          followingId === data.followedById && followedById === currentUserId,
       ),
     }));
   }
 
-  async getUserFollowings(id: string) {
-    return this.prisma.follows.findMany({
+  async getUserFollowings(currentUserId: string, id: string) {
+    const followings = await this.prisma.follows.findMany({
       where: {
         followedById: id,
       },
@@ -52,5 +60,24 @@ export class FollowsService {
         following: true,
       },
     });
+
+    if (currentUserId === id) return followings;
+
+    const currentUserFollowings = await this.prisma.follows.findMany({
+      where: {
+        followedById: currentUserId,
+      },
+      include: {
+        following: true,
+      },
+    });
+
+    return followings.map((data) => ({
+      ...data,
+      isUserAlsoFollowing: !!currentUserFollowings.find(
+        ({ followingId, followedById }) =>
+          data.followingId === followingId && followedById === currentUserId,
+      ),
+    }));
   }
 }

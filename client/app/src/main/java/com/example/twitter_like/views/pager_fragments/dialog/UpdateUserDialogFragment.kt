@@ -55,6 +55,8 @@ class UpdateUserDialogFragment(private val onDialogClosed: () -> Unit) :
 
         val onSubmit = dialog.findViewById<Button>(R.id.dialog_edit_submit)
 
+        onSubmit.text = "Save"
+
         onSubmit.setOnClickListener {
             userViewModel.updateUserById(
                 UpdateUserRequest(

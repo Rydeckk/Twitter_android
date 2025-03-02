@@ -14,6 +14,7 @@ fun userDtoToUserModel(dto: UserDto): User {
         followingCount = dto.followingCount,
         followedByCount = dto.followedByCount,
         lastname = dto.lastname,
-        firstname = dto.firstname
+        firstname = dto.firstname,
+        isUserFollowing = dto.isUserFollowing
     )
 }

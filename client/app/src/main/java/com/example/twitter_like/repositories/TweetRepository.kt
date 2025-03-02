@@ -2,6 +2,7 @@ package com.example.twitter_like.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.auth0.android.jwt.JWT
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.LikeRequest
@@ -23,12 +24,12 @@ class TweetRepository(private val context: Context) {
         context.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
 
     private fun getToken(): String? {
-        return sharedPreferences.getString("token", null)?.let { "Bearer $it" }
+        return sharedPreferences.getString("token", null)
     }
 
     fun getAllTweets(callback: GenericCallback<List<Tweet>>) {
         val token = getToken() ?: return
-        val call = tweetService.getAllTweets(token)
+        val call = tweetService.getAllTweets(token.let { "Bearer $it" })
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
                 call: Call<List<TweetDto>>,
@@ -48,9 +49,12 @@ class TweetRepository(private val context: Context) {
         })
     }
 
-    fun getUserTweets(callback: GenericCallback<List<Tweet>>) {
+    fun getUserTweets(userDetailId: String?, callback: GenericCallback<List<Tweet>>) {
         val token = getToken() ?: return
-        val call = tweetService.getUserTweets(token)
+        val jwt = JWT(token)
+        val userId = userDetailId ?: jwt.subject
+
+        val call = tweetService.getUserTweets(token.let { "Bearer $it" }, userId!!)
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
                 call: Call<List<TweetDto>>,
@@ -72,7 +76,7 @@ class TweetRepository(private val context: Context) {
 
     fun getFollowingUsersTweets(callback: GenericCallback<List<Tweet>>) {
         val token = getToken() ?: return
-        val call = tweetService.getFollowingUsersTweets(token)
+        val call = tweetService.getFollowingUsersTweets(token.let { "Bearer $it" })
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
                 call: Call<List<TweetDto>>,
@@ -92,9 +96,12 @@ class TweetRepository(private val context: Context) {
         })
     }
 
-    fun getLikesTweets(callback: GenericCallback<List<Tweet>>) {
+    fun getLikesTweets(userDetailId: String?, callback: GenericCallback<List<Tweet>>) {
         val token = getToken() ?: return
-        val call = tweetService.getLikesTweets(token)
+        val jwt = JWT(token)
+        val userId = userDetailId ?: jwt.subject
+
+        val call = tweetService.getLikesTweets(token.let { "Bearer $it" }, userId!!)
         call.enqueue(object : Callback<List<TweetDto>> {
             override fun onResponse(
                 call: Call<List<TweetDto>>,
@@ -116,7 +123,7 @@ class TweetRepository(private val context: Context) {
 
     fun getTweetById(tweetId: String, callback: GenericCallback<Tweet>) {
         val token = getToken() ?: return
-        val call = tweetService.getTweetById(token, tweetId)
+        val call = tweetService.getTweetById(token.let { "Bearer $it" }, tweetId)
 
         call.enqueue(object : Callback<TweetDto> {
             override fun onResponse(call: Call<TweetDto>, response: Response<TweetDto>) {
@@ -137,7 +144,7 @@ class TweetRepository(private val context: Context) {
         val token = getToken() ?: return
 
         val request = TweetRequest(content)
-        val call = tweetService.sendTweet(token, request)
+        val call = tweetService.sendTweet(token.let { "Bearer $it" }, request)
 
         call.enqueue(object : Callback<TweetResponse> {
             override fun onResponse(call: Call<TweetResponse>, response: Response<TweetResponse>) {
@@ -157,7 +164,7 @@ class TweetRepository(private val context: Context) {
     fun likeTweet(tweetId: String, callback: GenericCallback<Unit>) {
         val token = getToken() ?: return
         val request = LikeRequest(tweetId)
-        val call = tweetService.likeTweet(token, request)
+        val call = tweetService.likeTweet(token.let { "Bearer $it" }, request)
 
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -176,7 +183,7 @@ class TweetRepository(private val context: Context) {
 
     fun commentTweet(data: CommentRequest, callback: GenericCallback<Unit>) {
         val token = getToken() ?: return
-        val call = tweetService.commentTweet(token, data)
+        val call = tweetService.commentTweet(token.let { "Bearer $it" }, data)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
@@ -194,7 +201,7 @@ class TweetRepository(private val context: Context) {
 
     fun unlikeTweet(data: UnlikeRequest, callback: GenericCallback<Unit>) {
         val token = getToken() ?: return
-        val call = tweetService.unlikeTweet(token, data)
+        val call = tweetService.unlikeTweet(token.let { "Bearer $it" }, data)
 
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {

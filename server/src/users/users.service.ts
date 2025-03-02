@@ -17,6 +17,44 @@ const include: Prisma.UsersInclude = {
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findUserByIdForDetail(currentUserId: string, userId: string) {
+    const user = await this.prisma.users.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        ...include,
+      },
+    });
+
+    if (currentUserId === userId) {
+      return {
+        ...user,
+        followingCount: user?._count?.following,
+        followedByCount: user?._count?.followedBy,
+      };
+    }
+
+    const currentUser = await this.prisma.users.findUnique({
+      where: {
+        id: currentUserId,
+      },
+      include: {
+        followedBy: true,
+      },
+    });
+
+    return {
+      ...user,
+      followingCount: user?._count?.following,
+      followedByCount: user?._count?.followedBy,
+      isUserFollowing: !!currentUser.followedBy.find(
+        ({ followingId, followedById }) =>
+          followingId === userId && followedById === currentUserId,
+      ),
+    };
+  }
+
   async findUserById(userId: string) {
     const user = await this.prisma.users.findUnique({
       where: {

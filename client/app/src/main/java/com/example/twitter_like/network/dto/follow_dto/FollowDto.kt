@@ -7,7 +7,8 @@ data class FollowingDto(
     val followedById: String,
     val followingId: String,
     @SerializedName("following")
-    val user: UserDto
+    val user: UserDto,
+    val isUserAlsoFollowing: Boolean? = false
 )
 
 data class FollowedByDto(

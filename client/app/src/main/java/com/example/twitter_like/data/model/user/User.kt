@@ -10,5 +10,6 @@ data class User(
     val dateOfBirth: String?,
     val createdAt: String,
     val followedByCount: Number?,
-    val followingCount: Number?
+    val followingCount: Number?,
+    val isUserFollowing: Boolean? = false
 )

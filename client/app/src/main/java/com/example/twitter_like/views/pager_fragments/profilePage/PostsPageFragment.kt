@@ -2,6 +2,7 @@ package com.example.twitter_like.views.pager_fragments.profilePage
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.TweetDetailActivity
+import com.example.twitter_like.pages.UserDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
@@ -24,12 +26,20 @@ class PostsPageFragment : Fragment() {
     private lateinit var tweetsRv: RecyclerView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
+    private var userDetailId: String? = null
+
+
     companion object {
-        fun newInstance(): PostsPageFragment {
-            return PostsPageFragment()
+        fun newInstance(userDetailId: String?): PostsPageFragment {
+            val fragment = PostsPageFragment()
+            val args = Bundle()
+            args.putString(USER_ID_EXTRA, userDetailId)
+            fragment.arguments = args
+            return fragment
         }
 
         const val TWEET_ID_EXTRA = "tweet_id"
+        const val USER_ID_EXTRA = "user_id"
     }
 
     private val tweetViewModel: TweetViewModel by viewModels {
@@ -47,6 +57,9 @@ class PostsPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            userDetailId = it.getString(USER_ID_EXTRA)
+        }
         fetchData(view)
         setUpSwipeToRefreshListeners(view)
 
@@ -62,6 +75,8 @@ class PostsPageFragment : Fragment() {
             unlikeTweet(tweetId, likeId)
         }, onTweetClick = { tweetId ->
             navigateToTweetDetail(tweetId)
+        }, onUserProfileClick = { userId ->
+            navigateToUserDetail(userId)
         })
     }
 
@@ -84,9 +99,16 @@ class PostsPageFragment : Fragment() {
         }
         startActivity(intent)
     }
-    
+
+    private fun navigateToUserDetail(userId: String) {
+        val intent = Intent(requireContext(), UserDetailActivity::class.java).apply {
+            putExtra(USER_ID_EXTRA, userId)
+        }
+        startActivity(intent)
+    }
+
     private fun fetchData(fragmentView: View) {
-        tweetViewModel.getUserTweets(object : GenericCallback<List<Tweet>> {
+        tweetViewModel.getUserTweets(userDetailId, object : GenericCallback<List<Tweet>> {
             override fun onSuccess(data: List<Tweet>) {
                 setUpTweetsRv(data, fragmentView)
                 swipeRefreshLayout.isRefreshing = false

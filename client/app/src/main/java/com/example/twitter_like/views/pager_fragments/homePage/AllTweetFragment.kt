@@ -15,6 +15,7 @@ import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.like.UnlikeRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.TweetDetailActivity
+import com.example.twitter_like.pages.UserDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
@@ -30,6 +31,7 @@ class AllTweetFragment : Fragment() {
         }
 
         const val TWEET_ID_EXTRA = "tweet_id"
+        const val USER_ID_EXTRA = "user_id"
     }
 
     private val tweetViewModel: TweetViewModel by viewModels {
@@ -62,7 +64,10 @@ class AllTweetFragment : Fragment() {
             unlikeTweet(tweetId, likeId)
         }, onTweetClick = { tweetId ->
             navigateToTweetDetail(tweetId)
-        })
+        }, onUserProfileClick = { userId ->
+            navigateToUserDetail(userId)
+        }
+        )
     }
 
     private fun likeTweet(tweetId: String) {
@@ -81,6 +86,13 @@ class AllTweetFragment : Fragment() {
     private fun navigateToTweetDetail(tweetId: String) {
         val intent = Intent(requireContext(), TweetDetailActivity::class.java).apply {
             putExtra(TWEET_ID_EXTRA, tweetId)
+        }
+        startActivity(intent)
+    }
+
+    private fun navigateToUserDetail(userId: String) {
+        val intent = Intent(requireContext(), UserDetailActivity::class.java).apply {
+            putExtra(USER_ID_EXTRA, userId)
         }
         startActivity(intent)
     }
