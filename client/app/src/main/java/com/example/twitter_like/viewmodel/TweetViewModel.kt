@@ -25,8 +25,8 @@ class TweetViewModel(
         })
     }
 
-    fun getUserTweets(callback: GenericCallback<List<Tweet>>) {
-        this.tweetRepository.getUserTweets(object : GenericCallback<List<Tweet>> {
+    fun getUserTweets(userDetailId: String?, callback: GenericCallback<List<Tweet>>) {
+        this.tweetRepository.getUserTweets(userDetailId, object : GenericCallback<List<Tweet>> {
             override fun onSuccess(data: List<Tweet>) {
                 callback.onSuccess(data)
             }
@@ -49,8 +49,8 @@ class TweetViewModel(
         })
     }
 
-    fun getLikesTweets(callback: GenericCallback<List<Tweet>>) {
-        this.tweetRepository.getLikesTweets(object : GenericCallback<List<Tweet>> {
+    fun getLikesTweets(userDetailId: String?, callback: GenericCallback<List<Tweet>>) {
+        this.tweetRepository.getLikesTweets(userDetailId, object : GenericCallback<List<Tweet>> {
             override fun onSuccess(data: List<Tweet>) {
                 callback.onSuccess(data)
             }

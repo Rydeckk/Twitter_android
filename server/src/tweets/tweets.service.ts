@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { CreateTweetDto, LikeDto, UpdateTweetDto } from './dto/tweet.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
-import { FollowsService } from 'src/follows/follows.service';
 
 const include: Prisma.TweetsInclude = {
   users: true,
@@ -22,10 +21,7 @@ const orderBy:
 
 @Injectable()
 export class TweetsService {
-  constructor(
-    private prisma: PrismaService,
-    private followsService: FollowsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(data: CreateTweetDto) {
     return this.prisma.tweets.create({
@@ -60,9 +56,17 @@ export class TweetsService {
   }
 
   async getAllFollowTweets(userId: string) {
-    const userIds = (await this.followsService.getUserFollowings(userId)).map(
-      ({ followingId }) => followingId,
-    );
+    const userIds = (
+      await this.prisma.follows.findMany({
+        where: {
+          followedById: userId,
+        },
+        include: {
+          following: true,
+        },
+      })
+    ).map(({ followingId }) => followingId);
+
     return this.prisma.tweets.findMany({
       where: {
         userId: { in: userIds },

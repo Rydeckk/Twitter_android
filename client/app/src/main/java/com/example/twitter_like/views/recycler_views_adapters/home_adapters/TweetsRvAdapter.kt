@@ -20,7 +20,8 @@ class TweetsRvAdapter(
     private val tweets: List<Tweet>,
     private val onLikeClick: (String) -> Unit,
     private val onUnlikeClick: (String, String) -> Unit,
-    private val onTweetClick: (String) -> Unit
+    private val onTweetClick: (String) -> Unit,
+    private val onUserProfileClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
@@ -45,6 +46,10 @@ class TweetsRvAdapter(
         val jwt = JWT(token)
         val userId = jwt.subject ?: return
         val tweetData = this.tweets[position]
+
+        holder.profilePicture.setOnClickListener {
+            onUserProfileClick(tweetData.userId)
+        }
         holder.fullname.text = tweetData.users.username
         holder.username.text = tweetData.users.username
         holder.date.text = formatDate(tweetData.createdAt)

@@ -20,6 +20,7 @@ import com.example.twitter_like.utils.formatDate
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
 import com.example.twitter_like.views.pager_fragments.homePage.AllTweetFragment.Companion.TWEET_ID_EXTRA
+import com.example.twitter_like.views.pager_fragments.homePage.AllTweetFragment.Companion.USER_ID_EXTRA
 import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
 import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsCommentRvAdapter
@@ -52,6 +53,9 @@ class TweetDetailActivity : AppCompatActivity() {
         binding.apply {
             tweetDetailBack.setOnClickListener {
                 finish()
+            }
+            tweetDetailProfilePicture.setOnClickListener {
+                navigateToUserDetail(tweet.userId)
             }
             tweetDetailCommentIcon.setOnClickListener {
                 val modal = NewTweetModal()
@@ -136,6 +140,13 @@ class TweetDetailActivity : AppCompatActivity() {
         tweetViewModel.commentTweet(data) {
             fetchData()
         }
+    }
+
+    private fun navigateToUserDetail(userId: String) {
+        val intent = Intent(this, UserDetailActivity::class.java).apply {
+            putExtra(USER_ID_EXTRA, userId)
+        }
+        startActivity(intent)
     }
 
     private fun navigateToTweetDetail(tweetId: String) {

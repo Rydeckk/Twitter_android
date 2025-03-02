@@ -19,14 +19,20 @@ interface TweetService {
     @GET("tweets")
     fun getAllTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
 
-    @GET("tweets/user")
-    fun getUserTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
+    @GET("tweets/user/{userId}")
+    fun getUserTweets(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<List<TweetDto>>
 
     @GET("tweets/follow")
     fun getFollowingUsersTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
 
-    @GET("tweets/like")
-    fun getLikesTweets(@Header("Authorization") token: String): Call<List<TweetDto>>
+    @GET("tweets/like/{userId}")
+    fun getLikesTweets(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<List<TweetDto>>
 
     @GET("tweets/{userId}")
     fun getTweetById(
@@ -44,7 +50,10 @@ interface TweetService {
     fun likeTweet(@Header("Authorization") token: String, @Body request: LikeRequest): Call<Void>
 
     @POST("comments")
-    fun commentTweet(@Header("Authorization") token: String, @Body request: CommentRequest): Call<Void>
+    fun commentTweet(
+        @Header("Authorization") token: String,
+        @Body request: CommentRequest
+    ): Call<Void>
 
     @HTTP(method = "DELETE", path = "likes", hasBody = true)
     fun unlikeTweet(

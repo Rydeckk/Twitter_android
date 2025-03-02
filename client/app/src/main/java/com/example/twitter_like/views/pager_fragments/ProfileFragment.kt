@@ -54,7 +54,7 @@ class ProfileFragment : Fragment(), ProfilePagerHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchUser(view)
-
+        view.findViewById<Button>(R.id.profile_fragment_back).visibility = View.GONE
         openFollowersDialog = view.findViewById(R.id.open_followers_dialog)
         openFollowingsDialog = view.findViewById(R.id.open_followings_dialog)
 
@@ -87,12 +87,14 @@ class ProfileFragment : Fragment(), ProfilePagerHandler {
     }
 
     private fun profileViewHolder(user: User, view: View) {
-        view.findViewById<TextView>(R.id.profile_firstname_lastname).text = user.username
+        view.findViewById<TextView>(R.id.profile_firstname_lastname).text =
+            "${user.firstname} ${user.lastname}"
         view.findViewById<TextView>(R.id.profile_username).text = "@".plus(user.username)
         view.findViewById<TextView>(R.id.open_followers_dialog).text =
             user.followedByCount.toString().plus(" Abonnements")
         view.findViewById<TextView>(R.id.open_followings_dialog).text =
             user.followingCount.toString().plus(" Abonnées")
+        view.findViewById<TextView>(R.id.profile_biography).text = user.biography
     }
 
     private fun getToken(): String? {

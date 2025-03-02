@@ -19,7 +19,10 @@ import com.example.twitter_like.viewmodel.FollowViewModel
 import com.example.twitter_like.viewmodel.factories.FollowViewModelFactory
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.FollowsRvAdapter
 
-class FollowersDialogFragment(private val callback: () -> Unit) : DialogFragment() {
+class FollowersDialogFragment(
+    private val userId: String? = null,
+    private val callback: () -> Unit
+) : DialogFragment() {
 
     private lateinit var followersRv: RecyclerView
 
@@ -31,33 +34,33 @@ class FollowersDialogFragment(private val callback: () -> Unit) : DialogFragment
         val dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_followers)
         dialog.findViewById<TextView>(R.id.follow_dialog_title).text = "Abonnées"
-        fetchFollowers(dialog)
+        fetchFollowers(userId, dialog)
         return dialog
     }
 
 
-    private fun setUpFollowersRv(followings: List<Follows>, dialog: Dialog) {
+    private fun setUpFollowersRv(detailUserId: String?, followings: List<Follows>, dialog: Dialog) {
         followersRv = dialog.findViewById(R.id.user_rv)
         this.followersRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         followersRv.adapter =
             FollowsRvAdapter(requireContext(), false, followings, onFollowClick = { followingId ->
-                followUser(followingId, dialog)
+                followUser(detailUserId, followingId, dialog)
             }, onUnfollowClick = { followingId ->
-                unfollowUser(followingId, dialog)
-            })
+                unfollowUser(detailUserId, followingId, dialog)
+            }, detailUserId)
     }
 
-    private fun followUser(followingId: String, dialog: Dialog) {
+    private fun followUser(detailUserId: String?, followingId: String, dialog: Dialog) {
         followViewModel.followUser(FollowRequest(followingId)) {
-            fetchFollowers(dialog)
+            fetchFollowers(detailUserId, dialog)
             callback()
         }
     }
 
-    private fun unfollowUser(followingId: String, dialog: Dialog) {
+    private fun unfollowUser(detailUserId: String?, followingId: String, dialog: Dialog) {
         followViewModel.unfollowUser(UnfollowRequest(followingId)) {
-            fetchFollowers(dialog)
+            fetchFollowers(detailUserId, dialog)
             callback()
         }
     }
@@ -69,14 +72,15 @@ class FollowersDialogFragment(private val callback: () -> Unit) : DialogFragment
         return token
     }
 
-    private fun fetchFollowers(dialog: Dialog) {
+    private fun fetchFollowers(detailUserId: String?, dialog: Dialog) {
         val token = getToken() ?: return
         val jwt = JWT(token)
-        val userId = jwt.subject ?: return
+        val jwtUserId = jwt.subject ?: return
+        val userId = detailUserId ?: jwtUserId
 
         followViewModel.getUserFollowers(userId, object : GenericCallback<List<Follows>> {
             override fun onSuccess(data: List<Follows>) {
-                setUpFollowersRv(data, dialog)
+                setUpFollowersRv(detailUserId, data, dialog)
             }
 
             override fun onError(error: String) {

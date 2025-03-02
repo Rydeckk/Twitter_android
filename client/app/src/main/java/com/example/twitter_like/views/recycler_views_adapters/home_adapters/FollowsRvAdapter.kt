@@ -1,8 +1,8 @@
 package com.example.twitter_like.views.recycler_views_adapters.home_adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.example.twitter_like.R
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,8 @@ class FollowsRvAdapter(
     private var isFollowing: Boolean,
     private val follows: List<Follows>,
     private val onFollowClick: (String) -> Unit,
-    private val onUnfollowClick: (String) -> Unit
+    private val onUnfollowClick: (String) -> Unit,
+    private val userIdDetail: String? = null
 ) :
     RecyclerView.Adapter<FollowsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowsRvViewHolder {
@@ -44,25 +45,52 @@ class FollowsRvAdapter(
         holder.username.text = followData.user.username
         holder.biography.text = followData.user.biography
 
-        if (isFollowing) {
-            holder.followUnfollowButton.text =
-                if (userId == followData.followedById) "Unfollow" else "Follow"
-            holder.followUnfollowButton.setOnClickListener {
-                if (userId == followData.followedById) {
-                    onUnfollowClick(followData.user.id)
-                } else {
-                    onFollowClick(followData.user.id)
+        if (userIdDetail != null && userId != userIdDetail) {
+            if (isFollowing) {
+                holder.followUnfollowButton.text =
+                    if (followData.isUserAlsoFollowing == true) "Unfollow" else "Follow"
+                holder.followUnfollowButton.setOnClickListener {
+                    if (followData.isUserAlsoFollowing == true) {
+                        onUnfollowClick(followData.user.id)
+                    } else {
+                        onFollowClick(followData.user.id)
+                    }
+                }
+            } else {
+                holder.followUnfollowButton.text =
+                    if (followData.isUserAlsoFollowing == true) "Unfollow" else "Follow"
+                holder.followUnfollowButton.setOnClickListener {
+                    if (followData.isUserAlsoFollowing == true) {
+                        onUnfollowClick(followData.user.id)
+                    } else {
+                        onFollowClick(followData.user.id)
+                    }
                 }
             }
+            if (userId == followData.user.id) {
+                holder.followUnfollowButton.visibility = View.GONE
+            }
         } else {
-            holder.followUnfollowButton.text =
-                if (followData.isUserAlsoFollowing == true) "Unfollow" else "Follow"
+            if (isFollowing) {
+                holder.followUnfollowButton.text =
+                    if (userId == followData.followedById) "Unfollow" else "Follow"
+                holder.followUnfollowButton.setOnClickListener {
+                    if (userId == followData.followedById) {
+                        onUnfollowClick(followData.user.id)
+                    } else {
+                        onFollowClick(followData.user.id)
+                    }
+                }
+            } else {
+                holder.followUnfollowButton.text =
+                    if (followData.isUserAlsoFollowing == true) "Unfollow" else "Follow"
 
-            holder.followUnfollowButton.setOnClickListener {
-                if (followData.isUserAlsoFollowing == true) {
-                    onUnfollowClick(followData.user.id)
-                } else {
-                    onFollowClick(followData.user.id)
+                holder.followUnfollowButton.setOnClickListener {
+                    if (followData.isUserAlsoFollowing == true) {
+                        onUnfollowClick(followData.user.id)
+                    } else {
+                        onFollowClick(followData.user.id)
+                    }
                 }
             }
         }

@@ -31,12 +31,12 @@ export class FollowsController {
   }
 
   @Get('followers/:userId')
-  findUserFollowers(@Param('userId') userId: string) {
-    return this.followsService.getUserFollowers(userId);
+  findUserFollowers(@Request() req: Request, @Param('userId') userId: string) {
+    return this.followsService.getUserFollowers(req.user.sub, userId);
   }
 
   @Get('followings/:userId')
-  findUserFollowings(@Param('userId') userId: string) {
-    return this.followsService.getUserFollowings(userId);
+  findUserFollowings(@Request() req: Request, @Param('userId') userId: string) {
+    return this.followsService.getUserFollowings(req.user.sub, userId);
   }
 }
