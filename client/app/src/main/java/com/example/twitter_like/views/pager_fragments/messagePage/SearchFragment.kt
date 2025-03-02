@@ -15,7 +15,10 @@ import android.text.TextWatcher
 import android.text.Editable
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
+import com.example.twitter_like.data.model.conversation.Conversation
 import com.example.twitter_like.data.request.conversation.ConversationCreateRequest
+import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.interfaces.MessagePagerHandler
 import com.example.twitter_like.repositories.ConversationRepository
 import com.example.twitter_like.repositories.UserRepository
@@ -75,8 +78,20 @@ class SearchFragment: Fragment(R.layout.search_fragment) {
         this.searchRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val adapter = SearchUserRvAdapter(users)  { user ->
-            conversationViewModel.createConversation(ConversationCreateRequest(arrayOf(user.id)))
+            conversationViewModel.createConversation(ConversationCreateRequest(arrayOf(user.id)), object: GenericCallback<Conversation> {
+                override fun onSuccess(data: Conversation) {}
+
+                override fun onError(error: String) {
+                    Toast.makeText(requireContext(), "Conversation avec ces personnes déjà existante", Toast.LENGTH_SHORT).show()
+                }
+
+            })
         }
         this.searchRv.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.fetchUsers()
     }
 }

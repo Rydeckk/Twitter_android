@@ -6,13 +6,16 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
+import com.example.twitter_like.data.model.conversation.Conversation
 import com.example.twitter_like.data.model.user.User
 import com.example.twitter_like.data.request.conversation.ConversationCreateRequest
+import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.interfaces.MessagePagerHandler
 import com.example.twitter_like.repositories.ConversationRepository
 import com.example.twitter_like.repositories.UserRepository
@@ -65,8 +68,15 @@ class SearchGroupFragment: Fragment(R.layout.search_group_fragment) {
         addConversation.setOnClickListener {
             val selectedUsers = userViewModel.selectedUsers.value ?: emptyList()
             val userIds = selectedUsers.map { it.id }
-            conversationViewModel.createConversation(ConversationCreateRequest(userIds.toTypedArray()))
-            userViewModel.clearSelectedUser()
+            conversationViewModel.createConversation(ConversationCreateRequest(userIds.toTypedArray()), object: GenericCallback<Conversation> {
+                override fun onSuccess(data: Conversation) {
+                    userViewModel.clearSelectedUser()
+                }
+
+                override fun onError(error: String) {
+                    Toast.makeText(requireContext(), "Conversation avec ces personnes déjà existante", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
         searchInput.addTextChangedListener(object : TextWatcher {
@@ -86,5 +96,10 @@ class SearchGroupFragment: Fragment(R.layout.search_group_fragment) {
             userViewModel.addDeleteSelectedUser(user)
         }
         this.searchRv.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userViewModel.fetchUsers()
     }
 }

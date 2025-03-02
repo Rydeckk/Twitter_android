@@ -56,4 +56,9 @@ class ConversationFragment: Fragment(R.layout.conversation_fragment) {
 
         this.conversationRv.adapter = adapter
     }
+
+    override fun onResume() {
+        super.onResume()
+        conversationViewModel.getConversation()
+    }
 }

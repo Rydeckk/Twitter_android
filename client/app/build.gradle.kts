@@ -59,4 +59,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.jwtdecode)
+    implementation(libs.gson)
+    implementation(libs.socket.io.client)
 }

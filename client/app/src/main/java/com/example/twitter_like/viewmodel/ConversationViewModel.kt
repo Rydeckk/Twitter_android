@@ -1,9 +1,11 @@
 package com.example.twitter_like.viewmodel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.twitter_like.R
 import com.example.twitter_like.data.model.conversation.Conversation
 import com.example.twitter_like.data.request.conversation.ConversationCreateRequest
 import com.example.twitter_like.network.callback.GenericCallback
@@ -27,16 +29,17 @@ class ConversationViewModel(private val conversationRepository: ConversationRepo
         })
     }
 
-    fun createConversation(createConvData: ConversationCreateRequest) {
+    fun createConversation(createConvData: ConversationCreateRequest, callback: GenericCallback<Conversation>) {
         this.conversationRepository.createConversation( createConvData, object : GenericCallback<Conversation> {
             override fun onSuccess(data: Conversation) {
                 val updatedConversation = _conversations.value?.toMutableList() ?: mutableListOf()
                 updatedConversation.add(0, data)
                 _conversations.value = updatedConversation
                 selectConversation(data)
+                callback.onSuccess(data)
             }
             override fun onError(error: String) {
-                Log.e("ConversationViewModel", "Erreur création conversation: $error")
+                callback.onError(error)
             }
         })
     }

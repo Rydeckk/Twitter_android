@@ -6,12 +6,13 @@ import android.util.Log
 import com.example.twitter_like.data.model.message.Message
 import com.example.twitter_like.data.request.message.SendMessageRequest
 import com.example.twitter_like.network.RetrofitClient
+import com.example.twitter_like.network.WebSocketManager
 import com.example.twitter_like.network.callback.GenericCallback
-import com.example.twitter_like.network.dto.conversation_dto.ConversationDto
 import com.example.twitter_like.network.dto.message_dto.MessageDto
-import com.example.twitter_like.network.mapper.conversationDtoToConversationModel
 import com.example.twitter_like.network.mapper.messageDtoToMesageModel
 import com.example.twitter_like.network.services.MessageService
+import com.example.twitter_like.utils.parseJsonToMessage
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,13 +20,24 @@ import retrofit2.Response
 class MessageRepository(private val context: Context) {
     private val messageService = RetrofitClient.instance.create(MessageService::class.java)
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("MY_APP_SHARED_PREFS", Context.MODE_PRIVATE)
+    private val webSocketManager = WebSocketManager()
 
     private fun getToken(): String? {
         return sharedPreferences.getString("token", null)?.let { "Bearer $it" }
     }
 
+    fun connectToConversation(userId: String, onMessageReceived: (Message) -> Unit) {
+        webSocketManager.connect(userId) { messageJson ->
+            val message = parseJsonToMessage(messageJson)
+            onMessageReceived(message)
+        }
+    }
+
     fun sendMessage(messageData: SendMessageRequest, callback: GenericCallback<Message>) {
         val token = getToken() ?: return
+
+        webSocketManager.sendMessage(messageData.conversationId, Gson().toJson(messageData))
+
         val call = messageService.send_message(token, messageData)
         call.enqueue(object : Callback<MessageDto?> {
             override fun onResponse(call: Call<MessageDto?>, response: Response<MessageDto?>) {
@@ -60,5 +72,9 @@ class MessageRepository(private val context: Context) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
         })
+    }
+
+    fun closeConnection() {
+        webSocketManager.disconnect()
     }
 }
