@@ -4,15 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.auth0.android.jwt.JWT
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.like.Like
+import com.example.twitter_like.data.model.retweet.RetweetType
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.utils.formatDate
-import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
-import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
 class TweetsRvAdapter(
@@ -21,7 +20,9 @@ class TweetsRvAdapter(
     private val onLikeClick: (String) -> Unit,
     private val onUnlikeClick: (String, String) -> Unit,
     private val onTweetClick: (String) -> Unit,
-    private val onUserProfileClick: (String) -> Unit
+    private val onUserProfileClick: (String) -> Unit,
+    private val onCommentTweetClick: (String) -> Unit,
+    private val onRetweetClick: (String) -> Unit
 ) :
     RecyclerView.Adapter<TweetsRvViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
@@ -45,18 +46,55 @@ class TweetsRvAdapter(
         val token = getToken() ?: return
         val jwt = JWT(token)
         val userId = jwt.subject ?: return
-        val tweetData = this.tweets[position]
+        val tweetPosition = this.tweets[position]
+
+        val tweetData =
+            if (tweetPosition.retweet != null && tweetPosition.retweet.type == RetweetType.REPOST) tweetPosition.retweet.parentTweet else tweetPosition
 
         holder.profilePicture.setOnClickListener {
             onUserProfileClick(tweetData.userId)
         }
-        holder.fullname.text = tweetData.users.username
-        holder.username.text = tweetData.users.username
+        holder.fullname.text = "${tweetData.users.firstname} ${tweetData.users.lastname}"
+        holder.username.text = "@${tweetData.users.username}"
         holder.date.text = formatDate(tweetData.createdAt)
         holder.content.text = tweetData.content
         holder.commentCount.text = tweetData.tweetComments.size.toString()
         holder.retweetCount.text = tweetData.tweetRetweets.size.toString()
         holder.likeCount.text = tweetData.like.size.toString()
+
+
+        if (tweetPosition.comment != null) {
+            holder.toResponseToLayout.visibility = View.VISIBLE
+            holder.toResponseTo.text =
+                "En réponse à @${tweetPosition.comment.parentTweet.users.username}"
+        }
+
+        if (tweetPosition.retweet != null && tweetPosition.retweet.type == RetweetType.REPOST) {
+            holder.retweetInfoLayout.visibility = View.VISIBLE
+
+            if (tweetPosition.userId != userId) {
+                holder.retweetInfo.text = "${tweetPosition.users.username} à reposté"
+            }
+
+        }
+
+        if (tweetPosition.retweet != null && tweetPosition.retweet.type == RetweetType.REPLY) {
+            holder.parentTweetRetweetLayout.visibility = View.VISIBLE
+
+            holder.parentFullname.text =
+                "${tweetPosition.retweet.parentTweet.users.firstname} ${tweetPosition.retweet.parentTweet.users.lastname}"
+            holder.parentUsername.text = "@${tweetPosition.retweet.parentTweet.users.username}"
+            holder.parentTweetDate.text = formatDate(tweetPosition.retweet.parentTweet.createdAt)
+            holder.parentTweetContent.text = tweetPosition.retweet.parentTweet.content
+
+            holder.parentNavigation.setOnClickListener {
+                onTweetClick(tweetPosition.retweet.parentTweet.id)
+            }
+            holder.parentProfilePicture.setOnClickListener {
+                onUserProfileClick(tweetPosition.retweet.parentTweet.userId)
+            }
+
+        }
 
 
         if (tweetData.like.any { it -> it.tweetId == tweetData.id && it.userId == userId }) {
@@ -79,19 +117,11 @@ class TweetsRvAdapter(
         }
 
         holder.commentIcon.setOnClickListener {
-            val modal = NewTweetModal()
-            modal.show(
-                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
-                "NewTweetModal"
-            )
+            onCommentTweetClick(tweetData.id)
         }
 
         holder.retweetIcon.setOnClickListener {
-            val modal = RetweetModal()
-            modal.show(
-                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
-                "RetweetModal"
-            )
+            onRetweetClick(tweetData.id)
         }
         holder.tweetDetailNavigation.setOnClickListener { onTweetClick(tweetData.id) }
     }

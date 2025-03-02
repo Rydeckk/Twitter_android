@@ -2,11 +2,13 @@ package com.example.twitter_like.repositories
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.auth0.android.jwt.JWT
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.LikeRequest
 import com.example.twitter_like.data.request.like.UnlikeRequest
+import com.example.twitter_like.data.request.retweet.RetweetRequest
 import com.example.twitter_like.data.request.tweet.TweetRequest
 import com.example.twitter_like.data.request.tweet.TweetResponse
 import com.example.twitter_like.network.RetrofitClient
@@ -121,6 +123,31 @@ class TweetRepository(private val context: Context) {
         })
     }
 
+    fun getRetweetsTweets(userDetailId: String?, callback: GenericCallback<List<Tweet>>) {
+        val token = getToken() ?: return
+        val jwt = JWT(token)
+        val userId = userDetailId ?: jwt.subject
+
+        val call = tweetService.getRetweetsTweets(token.let { "Bearer $it" }, userId!!)
+        call.enqueue(object : Callback<List<TweetDto>> {
+            override fun onResponse(
+                call: Call<List<TweetDto>>,
+                response: Response<List<TweetDto>>
+            ) {
+                val bodyResponse = response.body()
+                if (bodyResponse?.isNotEmpty() == true) {
+                    callback.onSuccess(bodyResponse.map { tweetDtoToTweetModel(it) })
+                } else {
+                    callback.onSuccess(emptyList())
+                }
+            }
+
+            override fun onFailure(call: Call<List<TweetDto>>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
+    }
+
     fun getTweetById(tweetId: String, callback: GenericCallback<Tweet>) {
         val token = getToken() ?: return
         val call = tweetService.getTweetById(token.let { "Bearer $it" }, tweetId)
@@ -216,6 +243,24 @@ class TweetRepository(private val context: Context) {
                 callback.onError("Erreur réseau : ${t.message}")
             }
         })
+    }
 
+    fun retweetTweet(data: RetweetRequest, callback: GenericCallback<Unit>) {
+        val token = getToken() ?: return
+        val call = tweetService.retweetTweet(token.let { "Bearer $it" }, data)
+
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(Unit)
+                } else {
+                    callback.onError("Erreur ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback.onError("Erreur réseau : ${t.message}")
+            }
+        })
     }
 }

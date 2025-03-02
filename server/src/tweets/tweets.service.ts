@@ -9,8 +9,32 @@ const include: Prisma.TweetsInclude = {
   tweetComments: true,
   tweetRetweets: true,
   pictures: true,
-  retweet: true,
-  comment: true,
+  retweet: {
+    include: {
+      parentTweet: {
+        include: {
+          users: true,
+          like: true,
+          tweetComments: true,
+          tweetRetweets: true,
+          pictures: true,
+        },
+      },
+    },
+  },
+  comment: {
+    include: {
+      parentTweet: {
+        include: {
+          users: true,
+          like: true,
+          tweetComments: true,
+          tweetRetweets: true,
+          pictures: true,
+        },
+      },
+    },
+  },
 };
 
 const orderBy:
@@ -93,6 +117,18 @@ export class TweetsService {
           some: {
             userId,
           },
+        },
+      },
+      include,
+      orderBy,
+    });
+  }
+
+  async getRetweetsTweets(userId: string) {
+    return this.prisma.tweets.findMany({
+      where: {
+        retweet: {
+          userId,
         },
       },
       include,

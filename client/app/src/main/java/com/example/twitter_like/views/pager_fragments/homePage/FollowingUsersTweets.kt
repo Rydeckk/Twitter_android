@@ -11,14 +11,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.twitter_like.R
+import com.example.twitter_like.data.model.retweet.RetweetType
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.like.UnlikeRequest
+import com.example.twitter_like.data.request.retweet.RetweetRequest
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.pages.TweetDetailActivity
 import com.example.twitter_like.pages.UserDetailActivity
 import com.example.twitter_like.repositories.TweetRepository
 import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
+import com.example.twitter_like.views.pager_fragments.modal.CommentTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.ReplyTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsRvAdapter
 
 class FollowingUsersTweets : Fragment() {
@@ -29,6 +34,7 @@ class FollowingUsersTweets : Fragment() {
         fun newInstance(): FollowingUsersTweets {
             return FollowingUsersTweets()
         }
+
         const val TWEET_ID_EXTRA = "tweet_id"
         const val USER_ID_EXTRA = "user_id"
     }
@@ -65,7 +71,55 @@ class FollowingUsersTweets : Fragment() {
             navigateToTweetDetail(tweetId)
         }, onUserProfileClick = { userId ->
             navigateToUserDetail(userId)
+        }, onCommentTweetClick = { tweetId ->
+            commentTweet(tweetId, fragmentView)
+        }, onRetweetClick = { parentTweetId ->
+            retweetTweet(parentTweetId)
         })
+    }
+
+    private fun retweetTweet(tweetId: String) {
+        val modal = RetweetModal.newInstance(tweetId, onRetweetRepostTweetClick = {
+            onRetweetRepost(tweetId)
+        }, onRetweetReplyTweetClick = {
+            replyTweetModal(tweetId)
+        })
+        modal.show(
+            parentFragmentManager,
+            "RetweetModal"
+        )
+    }
+
+    private fun commentTweet(tweetId: String, fragmentView: View) {
+        val modal = CommentTweetModal.newInstance(tweetId) {
+            fetchData(fragmentView)
+        }
+        modal.show(
+            parentFragmentManager,
+            "CommentTweetModal"
+        )
+    }
+
+    private fun replyTweetModal(parentTweetId: String) {
+        val modal = ReplyTweetModal.newInstance { content ->
+            onRetweetReply(parentTweetId, content)
+        }
+        modal.show(
+            parentFragmentManager,
+            "ReplyModal"
+        )
+    }
+
+    private fun onRetweetRepost(parentTweetId: String) {
+        tweetViewModel.retweetTweet(RetweetRequest("", RetweetType.REPOST, parentTweetId)) {
+            fetchData(requireView())
+        }
+    }
+
+    private fun onRetweetReply(parentTweetId: String, content: String) {
+        tweetViewModel.retweetTweet(RetweetRequest(content, RetweetType.REPLY, parentTweetId)) {
+            fetchData(requireView())
+        }
     }
 
     private fun likeTweet(tweetId: String) {

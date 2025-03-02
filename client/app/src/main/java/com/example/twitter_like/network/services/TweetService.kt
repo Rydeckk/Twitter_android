@@ -3,6 +3,7 @@ package com.example.twitter_like.network.services
 import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.LikeRequest
 import com.example.twitter_like.data.request.like.UnlikeRequest
+import com.example.twitter_like.data.request.retweet.RetweetRequest
 import com.example.twitter_like.data.request.tweet.TweetRequest
 import com.example.twitter_like.data.request.tweet.TweetResponse
 import com.example.twitter_like.network.dto.tweets_dto.TweetDto
@@ -34,6 +35,12 @@ interface TweetService {
         @Path("userId") userId: String
     ): Call<List<TweetDto>>
 
+    @GET("tweets/retweet/{userId}")
+    fun getRetweetsTweets(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Call<List<TweetDto>>
+
     @GET("tweets/{userId}")
     fun getTweetById(
         @Header("Authorization") token: String,
@@ -53,6 +60,12 @@ interface TweetService {
     fun commentTweet(
         @Header("Authorization") token: String,
         @Body request: CommentRequest
+    ): Call<Void>
+
+    @POST("retweets")
+    fun retweetTweet(
+        @Header("Authorization") token: String,
+        @Body request: RetweetRequest
     ): Call<Void>
 
     @HTTP(method = "DELETE", path = "likes", hasBody = true)

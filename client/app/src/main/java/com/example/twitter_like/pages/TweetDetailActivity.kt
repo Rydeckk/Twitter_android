@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auth0.android.jwt.JWT
 import com.example.twitter_like.data.model.like.Like
+import com.example.twitter_like.data.model.retweet.RetweetType
 import com.example.twitter_like.data.model.tweet.Tweet
 import com.example.twitter_like.data.request.comment.CommentRequest
 import com.example.twitter_like.data.request.like.UnlikeRequest
+import com.example.twitter_like.data.request.retweet.RetweetRequest
 import com.example.twitter_like.databinding.TweetDetailBinding
 import com.example.twitter_like.network.callback.GenericCallback
 import com.example.twitter_like.repositories.TweetRepository
@@ -21,7 +23,8 @@ import com.example.twitter_like.viewmodel.TweetViewModel
 import com.example.twitter_like.viewmodel.factories.TweetViewModelFactory
 import com.example.twitter_like.views.pager_fragments.homePage.AllTweetFragment.Companion.TWEET_ID_EXTRA
 import com.example.twitter_like.views.pager_fragments.homePage.AllTweetFragment.Companion.USER_ID_EXTRA
-import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.CommentTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.ReplyTweetModal
 import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.recycler_views_adapters.home_adapters.TweetsCommentRvAdapter
 
@@ -58,12 +61,10 @@ class TweetDetailActivity : AppCompatActivity() {
                 navigateToUserDetail(tweet.userId)
             }
             tweetDetailCommentIcon.setOnClickListener {
-                val modal = NewTweetModal()
-                modal.show(supportFragmentManager, "NewTweetModal")
+                commentTweet(tweet.id)
             }
             tweetDetailRetweetIcon.setOnClickListener {
-                val modal = RetweetModal()
-                modal.show(supportFragmentManager, "RetweetModal")
+                retweetTweet(tweet.id)
             }
             if (tweet.like.any { it -> it.tweetId == tweet.id && it.userId == userId }) {
                 tweetDetailLikeIcon.setColorFilter(Color.RED)
@@ -118,8 +119,56 @@ class TweetDetailActivity : AppCompatActivity() {
                     },
                     onTweetClick = { tweetId ->
                         navigateToTweetDetail(tweetId)
-                    })
+                    },
+                    onCommentTweetClick = { tweetId ->
+                        commentTweet(tweetId)
+                    },
+                    onRetweetClick = { parentTweetId ->
+                        retweetTweet(parentTweetId)
+                    }
+                )
         }
+    }
+
+    private fun retweetTweet(parentTweetId: String) {
+        val modal = RetweetModal.newInstance(parentTweetId, onRetweetRepostTweetClick = {
+            onRetweetRepost(parentTweetId)
+        }, onRetweetReplyTweetClick = {
+            replyTweetModal(parentTweetId)
+        })
+        modal.show(supportFragmentManager, "RetweetModal")
+    }
+
+    private fun replyTweetModal(parentTweetId: String) {
+        val modal = ReplyTweetModal.newInstance { content ->
+            onRetweetReply(parentTweetId, content)
+        }
+        modal.show(
+            supportFragmentManager,
+            "ReplyModal"
+        )
+    }
+
+    private fun onRetweetRepost(parentTweetId: String) {
+        tweetViewModel.retweetTweet(RetweetRequest("", RetweetType.REPOST, parentTweetId)) {
+            fetchData()
+        }
+    }
+
+    private fun onRetweetReply(parentTweetId: String, content: String) {
+        tweetViewModel.retweetTweet(RetweetRequest(content, RetweetType.REPLY, parentTweetId)) {
+            fetchData()
+        }
+    }
+
+    private fun commentTweet(tweetId: String) {
+        val modal = CommentTweetModal.newInstance(tweetId) {
+            fetchData()
+        }
+        modal.show(
+            supportFragmentManager,
+            "CommentTweetModal"
+        )
     }
 
     private fun likeTweet(tweetId: String) {
