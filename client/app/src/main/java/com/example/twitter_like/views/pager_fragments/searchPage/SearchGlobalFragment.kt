@@ -1,5 +1,6 @@
 package com.example.twitter_like.views.pager_fragments.searchPage
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitter_like.R
 import com.example.twitter_like.data.model.user.User
+import com.example.twitter_like.pages.UserDetailActivity
 import com.example.twitter_like.repositories.UserRepository
 import com.example.twitter_like.viewmodel.UserViewModel
 import com.example.twitter_like.viewmodel.factories.UserViewModelFactory
@@ -29,6 +31,15 @@ class SearchGlobalFragment: Fragment(R.layout.search_global_fragment) {
             return SearchGlobalFragment().also {
             }
         }
+
+        const val USER_ID_EXTRA = "user_id"
+    }
+
+    private fun navigateToUserDetail(userId: String) {
+        val intent = Intent(requireContext(), UserDetailActivity::class.java).apply {
+            putExtra(USER_ID_EXTRA, userId)
+        }
+        startActivity(intent)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +68,7 @@ class SearchGlobalFragment: Fragment(R.layout.search_global_fragment) {
         this.searchRv.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val adapter = SearchUserRvAdapter(users) { user ->
-            //TODO
+            navigateToUserDetail(user.id)
         }
         this.searchRv.adapter = adapter
     }
