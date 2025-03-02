@@ -33,6 +33,14 @@ class MessageViewModel(private val messageRepository: MessageRepository, convers
         })
     }
 
+    fun connectToConversation(userId: String) {
+        messageRepository.connectToConversation(userId) { newMessage ->
+            val currentMessages = _messages.value.orEmpty().toMutableList()
+            currentMessages.add(newMessage)
+            _messages.postValue(currentMessages)
+        }
+    }
+
     fun sendMessage(conversationId: String, messageContent: String) {
         val messageData = SendMessageRequest(messageContent, conversationId)
         messageRepository.sendMessage(messageData, object : GenericCallback<Message> {
@@ -45,5 +53,10 @@ class MessageViewModel(private val messageRepository: MessageRepository, convers
                 Log.d("Error", error)
             }
         })
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        messageRepository.closeConnection()
     }
 }

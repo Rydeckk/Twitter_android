@@ -28,13 +28,12 @@ class MessageRvAdapter (
         holder.messageOwner.text = messageData.users.username
         holder.messageContent.text = messageData.message
         holder.dateMessage.text = formatDateToHour(messageData.createdAt)
+        holder.messageContainer.setBackgroundResource(R.drawable.background_message)
+        holder.mainLayout.gravity = Gravity.START
 
         if (messageData.userId == currentUser.id) {
             holder.messageContainer.setBackgroundResource(R.drawable.background_my_message)
             holder.mainLayout.gravity = Gravity.END
-        } else {
-            holder.messageContent.setBackgroundResource(R.drawable.background_message)
-            holder.mainLayout.gravity = Gravity.START
         }
     }
 }

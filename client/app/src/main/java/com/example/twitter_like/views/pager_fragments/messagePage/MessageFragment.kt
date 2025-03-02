@@ -66,6 +66,7 @@ class MessageFragment: Fragment(R.layout.message_fragment) {
         messageViewModel.messages.observe(viewLifecycleOwner) { messages ->
             userViewModel.getCurrentUser(object: GenericCallback<User> {
                 override fun onSuccess(data: User) {
+                    messageViewModel.connectToConversation(data.id)
                     setUpMessageRv(messages, data, view)
                     messageRv.scrollToPosition(messages.size - 1)
                 }
@@ -98,6 +99,18 @@ class MessageFragment: Fragment(R.layout.message_fragment) {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val adapter = MessageRvAdapter(messages, currentUser)
         this.messageRv.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val conversationSelected = conversationViewModel.selectedConversation.value
+        if(conversationSelected != null) {
+            val usernameConversation = view?.findViewById<TextView>(R.id.conversation_username)
+            if (usernameConversation != null) {
+                usernameConversation.text = conversationSelected.conversationsUsers
+                    .joinToString(",") { it.users.username }
+            }
+        }
     }
 
 }

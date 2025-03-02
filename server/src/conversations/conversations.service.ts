@@ -10,18 +10,23 @@ export class ConversationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createConversation(currentUserId: string, data: CreateConversationDto) {
-    const findExistingConv = await this.prisma.conversations.findFirst({
+    const userIds = [currentUserId, ...data.userIds];
+    const potentialConversations = await this.prisma.conversations.findMany({
       where: {
         conversationsUsers: {
-          every: {
-            userId: {
-              in: [currentUserId, ...data.userIds].map((userId) => userId),
-            },
-          },
+          every: { userId: { in: userIds } },
         },
       },
+      include: {
+        conversationsUsers: true,
+      },
     });
-
+    
+    const findExistingConv = potentialConversations.find(conv => 
+      conv.conversationsUsers.length === userIds.length &&
+      conv.conversationsUsers.every(user => userIds.includes(user.userId))
+    );
+    
     if (findExistingConv) {
       return null;
     }
