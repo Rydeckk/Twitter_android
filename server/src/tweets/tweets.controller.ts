@@ -49,6 +49,11 @@ export class TweetsController {
     return this.tweetsService.getLikesTweets(userId);
   }
 
+  @Get('retweet/:userId')
+  getRetweetsTweets(@Param('userId', ParseUUIDPipe) userId: string) {
+    return this.tweetsService.getRetweetsTweets(userId);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.tweetsService.findOne(id);

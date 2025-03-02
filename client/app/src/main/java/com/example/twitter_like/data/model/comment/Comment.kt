@@ -11,5 +11,6 @@ data class Comment(
     val tweetId: String,
     val parentTweetId: String,
     val tweet: Tweet,
-    val users: User
+    val users: User,
+    val parentTweet: Tweet
 )

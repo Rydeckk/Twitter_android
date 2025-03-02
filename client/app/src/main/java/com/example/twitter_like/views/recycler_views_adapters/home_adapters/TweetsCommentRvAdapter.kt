@@ -11,7 +11,7 @@ import com.example.twitter_like.R
 import com.example.twitter_like.data.model.comment.Comment
 import com.example.twitter_like.data.model.like.Like
 import com.example.twitter_like.utils.formatDate
-import com.example.twitter_like.views.pager_fragments.modal.NewTweetModal
+import com.example.twitter_like.views.pager_fragments.modal.CommentTweetModal
 import com.example.twitter_like.views.pager_fragments.modal.RetweetModal
 import com.example.twitter_like.views.view_holders.home_vh.TweetsRvViewHolder
 
@@ -20,7 +20,9 @@ class TweetsCommentRvAdapter(
     private val comments: List<Comment>,
     private val onLikeClick: (String) -> Unit,
     private val onUnlikeClick: (String, String) -> Unit,
-    private val onTweetClick: (String) -> Unit
+    private val onTweetClick: (String) -> Unit,
+    private val onCommentTweetClick: (String) -> Unit,
+    private val onRetweetClick: (String) -> Unit
 ) : RecyclerView.Adapter<TweetsRvViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TweetsRvViewHolder {
@@ -75,19 +77,11 @@ class TweetsCommentRvAdapter(
         }
 
         holder.commentIcon.setOnClickListener {
-            val modal = NewTweetModal()
-            modal.show(
-                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
-                "NewTweetModal"
-            )
+            onCommentTweetClick(tweetData.id)
         }
 
         holder.retweetIcon.setOnClickListener {
-            val modal = RetweetModal()
-            modal.show(
-                (holder.itemView.context as AppCompatActivity).supportFragmentManager,
-                "RetweetModal"
-            )
+            onRetweetClick(tweetData.id)
         }
         holder.tweetDetailNavigation.setOnClickListener { onTweetClick(tweetData.id) }
     }

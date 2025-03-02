@@ -2,30 +2,49 @@ package com.example.twitter_like.views.pager_fragments.modal
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.example.twitter_like.R
 
-class RetweetModal : DialogFragment() {
+class RetweetModal(
+    private val onRetweetRepostTweetClick: () -> Unit,
+    private val onRetweetReplyTweetClick: () -> Unit
+) : DialogFragment() {
+
+    companion object {
+        private const val ARG_TWEET_ID = "tweet_id"
+
+        fun newInstance(
+            tweetId: String, onRetweetRepostTweetClick: () -> Unit,
+            onRetweetReplyTweetClick: () -> Unit
+        ): RetweetModal {
+            val fragment = RetweetModal(onRetweetRepostTweetClick, onRetweetReplyTweetClick)
+            val args = Bundle()
+            args.putString(ARG_TWEET_ID, tweetId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
-        val view = LayoutInflater.from(context).inflate(R.layout.modal_retweet, null)
-        dialog.setContentView(view)
 
-        val repostButton = view.findViewById<Button>(R.id.repost_button)
-        val replyButton = view.findViewById<Button>(R.id.reply_button)
+        dialog.setContentView(R.layout.modal_retweet)
+
+        val repostButton = dialog.findViewById<Button>(R.id.repost_button)
+        val replyButton = dialog.findViewById<Button>(R.id.reply_button)
 
         repostButton.setOnClickListener {
-            dismiss() // Pour l'instant, ferme juste la modal
+            onRetweetRepostTweetClick()
+            dismiss()
         }
 
         replyButton.setOnClickListener {
-            dismiss() // Pour l'instant, ferme juste la modal
+            onRetweetReplyTweetClick()
+            dismiss()
         }
-
         return dialog
     }
+
+
 }

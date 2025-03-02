@@ -6,158 +6,306 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="0dp"
     android:background="@drawable/border"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:paddingTop="15dp"
     android:paddingBottom="15dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/tweet_material_card_view"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginHorizontal="4dp"
-        android:layout_marginVertical="4dp"
-        app:cardCornerRadius="50dp"
-        app:strokeColor="@color/black"
-        app:strokeWidth="4dp">
-
-        <ImageView
-            android:id="@+id/tweet_profile_picture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/tweet_profile_picture_content_description"
-            android:src="@drawable/profile_picture2" />
-    </com.google.android.material.card.MaterialCardView>
-
     <LinearLayout
-        android:id="@+id/tweet_detail_navigation"
+        android:id="@+id/tweet_retweet_response_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/retweet" />
+
+        <TextView
+            android:id="@+id/tweet_retweet_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="2dp"
+            android:text="Vous avez reposté"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/tweet_material_card_view"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginVertical="4dp"
+            app:cardCornerRadius="50dp"
+            app:strokeColor="@color/black"
+            app:strokeWidth="4dp">
+
+            <ImageView
+                android:id="@+id/tweet_profile_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/tweet_profile_picture_content_description"
+                android:src="@drawable/profile_picture2" />
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tweet_firstname_lastname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="2dp"
-                android:maxLength="20"
-                android:text="@string/tweet_firstname_lastname"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tweet_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="2dp"
-                android:maxLength="15"
-                android:text="@string/tweet_username"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tweet_publication_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="2dp"
-                android:maxLength="15"
-                android:text="@string/tweet_publication_date"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tweet_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="2dp"
-                android:layout_marginTop="5dp"
-                android:maxLines="5"
-                android:text="@string/lorem_ipsum"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tweet_interactions"
+            android:id="@+id/tweet_detail_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:paddingHorizontal="10dp">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/tweet_comment_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/comment" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tweet_comment_count"
+                    android:id="@+id/tweet_firstname_lastname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="23K"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:layout_marginHorizontal="2dp"
+                    android:maxLength="20"
+                    android:text="@string/tweet_firstname_lastname"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tweet_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:maxLength="15"
+                    android:text="@string/tweet_username"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tweet_publication_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="2dp"
+                    android:maxLength="15"
+                    android:text="@string/tweet_publication_date"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/tweet_comment_response_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/tweet_retweet_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/retweet" />
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tweet_retweet_count"
+                    android:id="@+id/tweet_comment_response"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="47K"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:layout_marginHorizontal="2dp"
+                    android:text="En réponse à @username"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/tweet_like_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/like" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tweet_like_count"
+                    android:id="@+id/tweet_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="321K"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="5"
+                    android:text="@string/lorem_ipsum"
+                    android:textSize="15sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/parent_tweet_retweet_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border"
+                android:visibility="gone">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/parent_tweet_material_card_view"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginVertical="4dp"
+                    app:cardCornerRadius="50dp"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="4dp">
+
+                    <ImageView
+                        android:id="@+id/parent_tweet_profile_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/tweet_profile_picture_content_description"
+                        android:src="@drawable/profile_picture2" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:id="@+id/parent_tweet_detail_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/parent_tweet_firstname_lastname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
+                            android:maxLength="20"
+                            android:text="@string/tweet_firstname_lastname"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/parent_tweet_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
+                            android:maxLength="15"
+                            android:text="@string/tweet_username"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/parent_tweet_publication_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
+                            android:maxLength="15"
+                            android:text="@string/tweet_publication_date"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/parent_tweet_comment_response_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/parent_tweet_comment_response"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
+                            android:text="En réponse à @username"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/parent_tweet_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="2dp"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="5"
+                            android:text="@string/lorem_ipsum"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/parent_tweet_interactions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tweet_interactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:paddingHorizontal="10dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/tweet_comment_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/comment" />
+
+                    <TextView
+                        android:id="@+id/tweet_comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="23K"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/tweet_retweet_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/retweet" />
+
+                    <TextView
+                        android:id="@+id/tweet_retweet_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="47K"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/tweet_like_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/like" />
+
+                    <TextView
+                        android:id="@+id/tweet_like_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="321K"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>
